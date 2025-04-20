@@ -1,27 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, User } from 'generated/prisma';
+import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { BaseRepository } from '../../../shared/interfaces/baseRepository.interface';
 
 @Injectable()
-export class UserRepositoryService
-    implements
-        BaseRepository<
-            User,
-            Prisma.UserWhereUniqueInput,
-            Prisma.UserWhereInput,
-            Prisma.UserCreateInput,
-            Prisma.UserOrderByWithRelationInput
-        >
-{
-    constructor(private prisma: PrismaService) {}
+export class UserRepositoryService {
+    constructor(private readonly prisma: PrismaService) {}
 
-    async find(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
+    async find(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
         return this.prisma.user.findUnique({
-            where: userWhereUniqueInput,
+            where,
         });
     }
-
     async findAll(params: {
         skip?: number;
         take?: number;
@@ -32,22 +21,39 @@ export class UserRepositoryService
         const { skip, take, cursor, where, orderBy } = params;
         return this.prisma.user.findMany({ skip, take, cursor, where, orderBy });
     }
-
     async create(data: Prisma.UserCreateInput): Promise<User> {
         return this.prisma.user.create({ data });
     }
-
-    async delete(where: Prisma.UserWhereUniqueInput): Promise<User> {
-        return this.prisma.user.delete({
-            where,
-        });
-    }
-
     async update(params: { where: Prisma.UserWhereUniqueInput; data: Prisma.UserCreateInput }) {
         const { where, data } = params;
         return this.prisma.user.update({
             where,
             data,
         });
+    }
+    async delete(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
+        return this.prisma.user.delete({
+            where,
+        });
+    }
+    async findByLogin(login: string): Promise<User | null> {
+        return this.prisma.user.findFirst({
+            where: {
+                OR: [
+                    {
+                        email: login,
+                    },
+                    {
+                        phone: login,
+                    },
+                    {
+                        username: login,
+                    },
+                ],
+            },
+        });
+    }
+    async findFirst(where: Prisma.UserWhereInput): Promise<User | null> {
+        return this.prisma.user.findFirst({ where });
     }
 }

@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+/* import { Role } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
 export class UserDto {
@@ -18,3 +18,4 @@ export class UserDto {
     @Exclude()
     password: string;
 }
+ */
