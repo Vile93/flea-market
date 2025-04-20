@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -12,13 +11,13 @@ model User {
   id          Int      @id @default(autoincrement())
   name        String
   surname     String?
-  username    String?  @unique
+  username    String   @unique
   email       String   @unique
   password    String
   phone       String   @unique
-  is_verified Boolean
-  avatar_path String
-  role        Role
+  is_verified Boolean? @default(false)
+  avatar_path String?
+  role        Role?    @default(USER)
   Review      Review[]
 }
 
