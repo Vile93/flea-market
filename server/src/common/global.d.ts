@@ -1,12 +1,12 @@
-import { Role } from '@prisma/client';
+import { JwtSecretRequestType, JwtService, JwtVerifyOptions } from '@nestjs/jwt';
+import { User as UserType } from '@prisma/client';
+import { Payload } from 'src/common/types/payload.interface';
 
 declare global {
     namespace Express {
-        interface User {
-            id: string;
-        }
+        type User = UserType;
         interface Request {
-            user: string;
+            user: { info: UserType; payload: Payload };
         }
     }
 }

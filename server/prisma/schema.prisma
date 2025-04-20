@@ -17,8 +17,14 @@ model User {
   phone       String   @unique
   is_verified Boolean? @default(false)
   avatar_path String?
-  role        Role?    @default(USER)
+  role        Role     @default(USER)
   Review      Review[]
+  Offer       Offer[]
+}
+
+model Jwt {
+  id    Int    @id @default(autoincrement())
+  token String @unique
 }
 
 model Review {
@@ -29,8 +35,57 @@ model Review {
   user_id  Int
 }
 
+model Offer {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  user_id     Int
+  user_ref    User        @relation(fields: [user_id], references: [id])
+  type_id     Int
+  type_ref    Type        @relation(fields: [type_id], references: [id])
+  region_id   Int
+  region_ref  Region      @relation(fields: [region_id], references: [id])
+  status      OfferStatus @default(MODERATE)
+}
+
+model Type {
+  id           Int      @id @default(autoincrement())
+  name         String
+  category_id  Int
+  category_ref Category @relation(fields: [category_id], references: [id])
+  Offer        Offer[]
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  Type Type[]
+}
+
+model Region {
+  id           Int      @id @default(autoincrement())
+  name         String
+  location_id  Int
+  location_ref Location @relation(fields: [location_id], references: [id])
+  Offer        Offer[]
+}
+
+model Location {
+  id     Int      @id @default(autoincrement())
+  name   String
+  Region Region[]
+}
+
+enum OfferStatus {
+  REJECTED
+  MODERATE
+  ACCEPTED
+  SOLD
+}
+
 enum Role {
-  USER
+  ROOT
   ADMIN
   MODERATOR
+  USER
 }
