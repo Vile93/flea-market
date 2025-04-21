@@ -1,20 +1,24 @@
-import { Optional } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { IsNumber, IsPositive } from 'class-validator';
+import { IsIn, IsNumber, IsOptional, IsPositive, Validate, validate } from 'class-validator';
+import { IsOrder } from 'src/common/validators/order.validator';
 
+@IsOrder()
 export class FindLocationDto {
-    /*   @Optional()
-    @IsNumber()
-    @IsPositive() */
-    @Optional()
+    @IsOptional()
     @IsNumber()
     @IsPositive()
     skip?: number;
-    /*     @Optional()
+
+    @IsOptional()
     @IsNumber()
-    @IsPositive() */
-    take?: number;
-    cursor?: Prisma.LocationWhereUniqueInput;
-    where?: Prisma.LocationWhereInput;
-    orderBy?: Prisma.LocationOrderByWithRelationInput;
+    @IsPositive()
+    take: number;
+
+    @IsIn([])
+    searchField?: string;
+    searchValue?: string;
+
+    @IsOptional()
+    orderField?: string;
+    @IsOptional()
+    orderDirection?: string;
 }
