@@ -6,7 +6,6 @@ import { AuthRegisterDto } from './dto/auth-register.dto';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
 import { SALT } from 'src/common/constants';
 import { Payload } from 'src/common/types/payload.interface';
-import { Request, Response } from 'express';
 import { JwtService } from 'src/jwt/jwt-service.service';
 
 @Injectable()

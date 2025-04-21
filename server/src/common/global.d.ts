@@ -1,4 +1,3 @@
-import { JwtSecretRequestType, JwtService, JwtVerifyOptions } from '@nestjs/jwt';
 import { User as UserType } from '@prisma/client';
 import { Payload } from 'src/common/types/payload.interface';
 

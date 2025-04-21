@@ -4,7 +4,7 @@ import { IsString, MaxLength, MinLength } from 'class-validator';
 export class UpdateLocationDto {
     @Optional()
     @IsString()
-    @MaxLength(50)
     @MinLength(3)
+    @MaxLength(50)
     name: string;
 }

@@ -1,32 +1,14 @@
-import {
-    ValidationArguments,
-    ValidatorConstraint,
-    ValidatorConstraintInterface,
-    ValidationOptions,
-    registerDecorator,
-} from 'class-validator';
-import { FindLocationDto } from 'src/location/dto/find-location.dto';
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 
-@ValidatorConstraint({ async: false })
-export class IsOrderConstraint implements ValidatorConstraintInterface {
-    validate(value: any, validationArguments?: ValidationArguments): boolean {
-        const { orderDirection, orderField } = validationArguments?.object as FindLocationDto;
+@ValidatorConstraint()
+export class OrderConstraint implements ValidatorConstraintInterface {
+    validate(value: any, validationArguments?: ValidationArguments): Promise<boolean> | boolean {
+        const { orderDirection, orderField } = validationArguments?.object as any;
         if (typeof orderField === 'undefined' && typeof orderDirection === 'undefined') return true;
         if (typeof orderField !== 'string' || typeof orderDirection !== 'string') return false;
         return true;
     }
-    defaultMessage(validationArguments?: ValidationArguments): string {
+    defaultMessage(): string {
         return 'Incorrect sort fields';
     }
 }
-
-export const IsOrder = (validateOptions?: ValidationOptions) => {
-    return function (object: Function) {
-        registerDecorator({
-            target: object,
-            propertyName: '',
-            options: validateOptions,
-            validator: IsOrderConstraint,
-        });
-    };
-};

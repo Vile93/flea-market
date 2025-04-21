@@ -13,7 +13,6 @@ export class LocationController {
 
     @Post()
     create(@Body() createLocationDto: CreateLocationDto) {
-        console.log(createLocationDto);
         return this.locationService.create(createLocationDto);
     }
 
@@ -30,7 +29,6 @@ export class LocationController {
 
     @Put(':id')
     update(@Param('id', ParseIntPipe) id: number, @Body() updateLocationDto: UpdateLocationDto) {
-        console.log(updateLocationDto);
         return this.locationService.update(id, updateLocationDto);
     }
 

@@ -3,6 +3,7 @@ import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { LocationRepositoryService } from 'src/location/location-repository.service';
 import { FindLocationDto } from 'src/location/dto/find-location.dto';
+import { toObj } from 'src/common/utils/toObj.utils';
 
 @Injectable()
 export class LocationService {
@@ -12,7 +13,19 @@ export class LocationService {
     }
 
     findAll(findLocationDto: FindLocationDto) {
-        return this.locationRepository.findAll(findLocationDto);
+        const { orderDirection, orderField, searchField, searchValue, skip, take } = findLocationDto;
+        return this.locationRepository.findAll(
+            toObj({
+                skip,
+                take,
+                orderBy: {
+                    [orderField as string]: orderDirection,
+                },
+                where: {
+                    [searchField as string]: searchValue,
+                },
+            }),
+        );
     }
 
     findById(id: number) {
