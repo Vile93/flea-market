@@ -8,11 +8,11 @@ import { toObj } from 'src/common/utils/toObj.utils';
 @Injectable()
 export class LocationService {
     constructor(private readonly locationRepository: LocationRepositoryService) {}
-    create(createLocationDto: CreateLocationDto) {
+    async create(createLocationDto: CreateLocationDto) {
         return this.locationRepository.create(createLocationDto);
     }
 
-    findAll(findLocationDto: FindLocationDto) {
+    async findAll(findLocationDto: FindLocationDto) {
         const { orderDirection, orderField, searchField, searchValue, skip, take } = findLocationDto;
         return this.locationRepository.findAll(
             toObj({
@@ -28,15 +28,15 @@ export class LocationService {
         );
     }
 
-    findById(id: number) {
+    async findById(id: number) {
         return this.locationRepository.find({ id });
     }
 
-    update(id: number, updateLocationDto: UpdateLocationDto) {
+    async update(id: number, updateLocationDto: UpdateLocationDto) {
         return this.locationRepository.update({ where: { id }, data: updateLocationDto });
     }
 
-    delete(id: number) {
+    async delete(id: number) {
         return this.locationRepository.delete({ id });
     }
 }

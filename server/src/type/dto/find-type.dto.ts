@@ -1,13 +1,13 @@
-import { Location } from '@prisma/client';
-import { IsInt, IsNumber, IsOptional, IsPositive } from 'class-validator';
+import { Type } from '@prisma/client';
+import { IsOptional, IsPositive, IsInt } from 'class-validator';
 import { isOrder } from 'src/common/decorators/isOrder.decorator';
 import { isSearch } from 'src/common/decorators/isSearch.decorator';
 import { transformToNumber } from 'src/common/decorators/transformToNumber.decorator';
 import { keys } from 'ts-transformer-keys';
 
 @isOrder()
-@isSearch(keys<Location>())
-export class FindLocationDto {
+@isSearch(keys<Type>())
+export class FindTypeDto {
     @IsOptional()
     @IsPositive()
     @IsInt()

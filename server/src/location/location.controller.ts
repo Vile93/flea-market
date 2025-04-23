@@ -18,7 +18,6 @@ export class LocationController {
 
     @Get()
     findAll(@Query() findLocationDto: FindLocationDto) {
-        console.log(findLocationDto);
         return this.locationService.findAll(findLocationDto);
     }
 

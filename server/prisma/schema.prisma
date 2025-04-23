@@ -55,10 +55,13 @@ model Type {
   category_id  Int
   category_ref Category @relation(fields: [category_id], references: [id])
   Offer        Offer[]
+
+  @@unique([name, category_id])
 }
 
 model Category {
   id   Int    @id @default(autoincrement())
+  name String @unique
   Type Type[]
 }
 
@@ -68,11 +71,13 @@ model Region {
   location_id  Int
   location_ref Location @relation(fields: [location_id], references: [id])
   Offer        Offer[]
+
+  @@unique([name, location_id])
 }
 
 model Location {
   id     Int      @id @default(autoincrement())
-  name   String
+  name   String   @unique
   Region Region[]
 }
 

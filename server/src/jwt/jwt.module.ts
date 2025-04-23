@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtRepositoryService } from './jwt-repository.service';
-import { JwtService } from 'src/jwt/jwt-service.service';
+import { JwtService } from 'src/jwt/jwt.service';
 import { JwtModule as NestJwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ENV } from 'src/common/types/env.enum';

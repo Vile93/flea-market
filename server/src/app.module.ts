@@ -9,6 +9,8 @@ import { ReviewModule } from './review/review.module';
 import { RegionModule } from './region/region.module';
 import { LocationModule } from './location/location.module';
 import { TypeModule } from './type/type.module';
+import { CategoryModule } from './category/category.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
     imports: [
@@ -22,6 +24,8 @@ import { TypeModule } from './type/type.module';
         RegionModule,
         LocationModule,
         TypeModule,
+        CategoryModule,
+        StorageModule,
     ],
 })
 export class AppModule {}

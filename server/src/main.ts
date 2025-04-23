@@ -13,5 +13,5 @@ async function bootstrap() {
     app.use(cookieParser());
     await app.listen(config.getOrThrow(ENV.PORT));
 }
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
+
 bootstrap();
