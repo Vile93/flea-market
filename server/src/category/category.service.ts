@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { toObj } from 'src/common/utils/toObj.utils';
+import { toObj } from 'src/common/utils/to-obj.utils';
 import { CategoryRepositoryService } from './category-repository.service';
 import { FindCategoryDto } from './dto/find-category.dto';
 

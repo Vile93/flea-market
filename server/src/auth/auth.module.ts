@@ -9,12 +9,14 @@ import { JwtStrategy } from './jwt.strategy';
 import { ConfigService } from '@nestjs/config';
 import { ENV } from 'src/common/types/env.enum';
 import { JwtModule } from 'src/jwt/jwt.module';
+import { BcryptModule } from 'src/bcrypt/bcrypt.module';
 
 @Module({
     imports: [
         UserModule,
         JwtModule,
         PassportModule,
+        BcryptModule,
         NestJwtModule.registerAsync({
             inject: [ConfigService],
             useFactory(configService: ConfigService) {

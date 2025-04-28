@@ -11,6 +11,7 @@ import { LocationModule } from './location/location.module';
 import { TypeModule } from './type/type.module';
 import { CategoryModule } from './category/category.module';
 import { StorageModule } from './storage/storage.module';
+import { BcryptModule } from './bcrypt/bcrypt.module';
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { StorageModule } from './storage/storage.module';
         TypeModule,
         CategoryModule,
         StorageModule,
+        BcryptModule,
     ],
 })
 export class AppModule {}

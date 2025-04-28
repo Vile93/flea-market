@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  name        String
-  surname     String?
-  username    String   @unique
-  email       String   @unique
-  password    String
-  phone       String   @unique
-  is_verified Boolean? @default(false)
-  avatar_path String?
-  role        Role     @default(USER)
-  Review      Review[]
-  Offer       Offer[]
+  id                Int      @id @default(autoincrement())
+  name              String
+  surname           String?
+  username          String   @unique
+  email             String   @unique
+  password          String
+  phone             String   @unique
+  is_verified       Boolean? @default(false)
+  avatar_path       String?
+  role              Role     @default(USER)
+  Review            Review[]
+  OfferCustomerUser Offer[]  @relation("CustomerUser")
+  Offer             Offer[]
 }
 
 model Jwt {
@@ -28,25 +29,34 @@ model Jwt {
 }
 
 model Review {
-  id       Int     @id @default(autoincrement())
-  rating   Int
-  content  String?
-  user_ref User    @relation(fields: [user_id], references: [id])
-  user_id  Int
+  id        Int        @id @default(autoincrement())
+  rating    Int
+  content   String?
+  answer    String?
+  user_ref  User       @relation(fields: [user_id], references: [id])
+  user_id   Int
+  offer_ref Offer      @relation(fields: [offer_id], references: [id])
+  offer_id  Int
+  type      ReviewType
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Offer {
-  id          Int         @id @default(autoincrement())
-  title       String
-  description String
-  price       Float
-  user_id     Int
-  user_ref    User        @relation(fields: [user_id], references: [id])
-  type_id     Int
-  type_ref    Type        @relation(fields: [type_id], references: [id])
-  region_id   Int
-  region_ref  Region      @relation(fields: [region_id], references: [id])
-  status      OfferStatus @default(MODERATE)
+  id                Int         @id @default(autoincrement())
+  title             String
+  description       String
+  price             Float
+  user_id           Int
+  user_ref          User        @relation(fields: [user_id], references: [id])
+  type_id           Int
+  type_ref          Type        @relation(fields: [type_id], references: [id])
+  region_id         Int
+  region_ref        Region      @relation(fields: [region_id], references: [id])
+  user_customer_id  Int?
+  user_customer_ref User?       @relation("CustomerUser", fields: [user_customer_id], references: [id])
+  status            OfferStatus @default(MODERATE)
+  Review            Review[]
 }
 
 model Type {
@@ -93,4 +103,9 @@ enum Role {
   ADMIN
   MODERATOR
   USER
+}
+
+enum ReviewType {
+  SELLER
+  CUSTOMER
 }

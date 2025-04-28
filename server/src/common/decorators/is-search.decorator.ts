@@ -7,7 +7,7 @@ export const isSearch = (property: string[], validateOptions?: ValidationOptions
             target: object,
             propertyName: '',
             options: validateOptions,
-            constraints: [property],
+            constraints: property,
             validator: SearchConstraint,
         });
     };

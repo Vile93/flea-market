@@ -1,26 +1,9 @@
-import { IsInt, IsOptional, IsPositive } from 'class-validator';
-import { transformToNumber } from 'src/common/decorators/transformToNumber.decorator';
+import { Category } from '@prisma/client';
+import { isOrder } from 'src/common/decorators/is-order.decorator';
+import { isSearch } from 'src/common/decorators/is-search.decorator';
+import { FindDto } from 'src/common/dto/find.dto';
+import { keys } from 'ts-transformer-keys';
 
-export class FindCategoryDto {
-    @IsOptional()
-    @IsPositive()
-    @IsInt()
-    @transformToNumber()
-    skip?: number;
-
-    @IsOptional()
-    @IsInt()
-    @IsPositive()
-    @transformToNumber()
-    take?: number;
-
-    @IsOptional()
-    searchField?: string;
-    @IsOptional()
-    searchValue?: string;
-
-    @IsOptional()
-    orderField?: string;
-    @IsOptional()
-    orderDirection?: string;
-}
+@isOrder(keys<Category>())
+@isSearch(keys<Category>())
+export class FindCategoryDto extends FindDto {}

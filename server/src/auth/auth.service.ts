@@ -1,12 +1,11 @@
 import { ConflictException, Injectable, Req, UnauthorizedException } from '@nestjs/common';
 import { UserRepositoryService } from 'src/user/user-repository.service';
-import * as bcrypt from 'bcrypt';
 import { Role, User } from '@prisma/client';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
-import { SALT } from 'src/common/constants';
 import { Payload } from 'src/common/types/payload.interface';
 import { JwtService } from 'src/jwt/jwt.service';
+import { BcryptService } from 'src/bcrypt/bcrypt.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +13,7 @@ export class AuthService {
         private readonly userRepository: UserRepositoryService,
         private readonly jwtService: JwtService,
         private readonly nestJwtService: NestJwtService,
+        private readonly bcryptService: BcryptService,
     ) {}
 
     async register(authRegisterDto: AuthRegisterDto): Promise<{ accessToken: string; refreshToken: string }> {
@@ -32,7 +32,7 @@ export class AuthService {
             ],
         });
         if (candidate) throw new ConflictException('User with this email, username or phone already exists');
-        const hashedPassword = await bcrypt.hash(authRegisterDto.password, SALT);
+        const hashedPassword = await this.bcryptService.hash(authRegisterDto.password);
         const user = await this.userRepository.create({
             ...authRegisterDto,
             password: hashedPassword,

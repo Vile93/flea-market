@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from '../common/guards/local-auth.guard';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { Request, Response } from 'express';
-import { setRefreshToCookie } from 'src/common/utils/setRefreshToCookie.utils';
+import { setRefreshToCookie } from 'src/common/utils/set-refresh-to-cookie.utils';
 
 @Controller('auth')
 export class AuthController {
