@@ -4,7 +4,8 @@ import { TypeController } from './type.controller';
 import { TypeRepositoryService } from './type-repository.service';
 
 @Module({
-  controllers: [TypeController],
-  providers: [TypeService, TypeRepositoryService],
+    exports: [TypeRepositoryService],
+    controllers: [TypeController],
+    providers: [TypeService, TypeRepositoryService],
 })
 export class TypeModule {}

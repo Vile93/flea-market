@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { toObj } from 'src/common/utils/toObj.utils';
+import { toObj } from 'src/common/utils/to-obj.utils';
 import { RegionRepositoryService } from './region-repository.service';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { FindRegionDto } from './dto/find-region.dto';

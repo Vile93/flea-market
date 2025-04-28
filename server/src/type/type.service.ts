@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { toObj } from 'src/common/utils/toObj.utils';
+import { toObj } from 'src/common/utils/to-obj.utils';
 import { TypeRepositoryService } from './type-repository.service';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';

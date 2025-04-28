@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { LocationRepositoryService } from 'src/location/location-repository.service';
-import { FindLocationDto } from 'src/location/dto/find-location.dto';
-import { toObj } from 'src/common/utils/toObj.utils';
+import { FindOpts } from 'src/common/types/find-opts.interface';
 
 @Injectable()
 export class LocationService {
@@ -12,20 +11,8 @@ export class LocationService {
         return this.locationRepository.create(createLocationDto);
     }
 
-    async findAll(findLocationDto: FindLocationDto) {
-        const { orderDirection, orderField, searchField, searchValue, skip, take } = findLocationDto;
-        return this.locationRepository.findAll(
-            toObj({
-                skip,
-                take,
-                orderBy: {
-                    [orderField as string]: orderDirection,
-                },
-                where: {
-                    [searchField as string]: searchValue,
-                },
-            }),
-        );
+    async findAll(findOpts: FindOpts) {
+        return this.locationRepository.findAll(findOpts);
     }
 
     async findById(id: number) {
