@@ -1,0 +1,26 @@
+.filter {
+    display: grid;
+    gap: 8px;
+    grid-template-areas:
+        'filter search sort'
+        'filter offer offer';
+    grid-template-columns: 18rem 1fr auto;
+    grid-template-rows: 60px 1fr;
+}
+
+.filters {
+    grid-area: filter;
+    align-self: flex-start;
+}
+
+.sort {
+    grid-area: sort;
+}
+
+.search {
+    grid-area: search;
+}
+
+.offers {
+    grid-area: offer;
+}
