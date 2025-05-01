@@ -11,6 +11,7 @@ import * as FileUpload from '@/components/ui/file-upload';
 import { Upload } from 'lucide-react';
 import { FormError } from '@/components/form-error';
 import { User } from '@/types/user.interface';
+import { Title } from '@/components/title';
 
 export function SettingsForm() {
     const userFetch = useFetch<User, null>(getProfile);
@@ -34,12 +35,12 @@ export function SettingsForm() {
     const onFileChange = useCallback((file: File[]) => {
         setLogo([file[file.length - 1]]);
     }, []);
-
+    console.log(userFetch);
     return (
         <div className="flex">
             <Card className="lg:-translate-x-1/4">
                 <CardHeader>
-                    <div className="text-2xl font-bold">Настройки</div>
+                    <Title name="Настройки" />
                 </CardHeader>
                 <CardContent className="lg:w-2xl">
                     <form>
@@ -76,6 +77,7 @@ export function SettingsForm() {
                                                 className="flex justify-center w-full"
                                             >
                                                 <FileUpload.ItemPreview className="h-full w-full" />
+                                                <FileUpload.ItemMetadata />
                                             </FileUpload.Item>
                                         ))}
                                     </FileUpload.List>

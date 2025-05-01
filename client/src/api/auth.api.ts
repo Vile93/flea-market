@@ -18,8 +18,6 @@ export const fetchRegister = async (data: Register) => {
 export const fetchJWT = () => {
     return myFetch('/auth/jwt', {
         method: 'POST',
-        cache: 'force-cache',
-        next: { revalidate: 30 },
     });
 };
 

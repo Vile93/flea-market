@@ -1,7 +1,9 @@
 export const PROFILE_ROUTES = {
-    OFFERS: '/profile/offers',
+    OFFERS: '/profile/offers/all',
     CHATS: '/profile/chats',
     SETTINGS: '/profile/settings',
+    CREATE_OFFER: '/profile/offers/create',
+    UPDATE_OFFER: '/profile/offers/update/',
 };
 
 export const AUTH_ROUTES = {

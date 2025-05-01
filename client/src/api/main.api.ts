@@ -1,19 +1,21 @@
 import { BACKEND_API } from '@/constants/api.constant';
 import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 
-const defaultOpts = {
-    headers: {
-        'Content-Type': 'application/json',
-        Authorization: globalThis?.localStorage?.getItem('token')
-            ? 'Bearer ' + globalThis.localStorage.getItem('token')
-            : '',
-    },
-    credentials: 'include' as RequestCredentials,
+const defaultOpts = () => {
+    return {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: globalThis?.localStorage?.getItem('token')
+                ? 'Bearer ' + globalThis.localStorage.getItem('token')
+                : '',
+        },
+        credentials: 'include' as RequestCredentials,
+    };
 };
 
 export const myFetch = async (url: string, opts?: RequestInit) => {
     return fetch(BACKEND_API + url, {
-        ...defaultOpts,
+        ...defaultOpts(),
         ...opts,
     });
 };

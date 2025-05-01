@@ -61,6 +61,7 @@ export const useFetch = <T, Y>(callback: (...args: Y[]) => Promise<Response>, ..
     return {
         data,
         fetchData,
+        isAuth,
         isLoading,
         isError,
         statusCode,

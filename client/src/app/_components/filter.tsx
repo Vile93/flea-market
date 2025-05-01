@@ -2,35 +2,10 @@
 
 import { TreeDataItem, TreeView } from '@/components/tree-view';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectItem,
-    SelectGroup,
-    SelectLabel,
-} from '@/components/ui/select';
-import {
-    ArrowDown,
-    ArrowUp,
-    Calendar,
-    CalendarArrowUp,
-    ChartColumnIncreasing,
-    DollarSign,
-    MapPin,
-    Receipt,
-    Search,
-} from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGroup } from '@/components/ui/select';
+import { MapPin, Search } from 'lucide-react';
 import styles from '../style.module.css';
 
 export function Filter() {
@@ -145,7 +120,7 @@ export function Filter() {
                 <div className={`${styles.offers} self-start`}>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
                         {Array.from({ length: 60 }, () => (
-                            <div>
+                            <div key={Math.random()}>
                                 <div className="aspect-square w-full bg-black dark:bg-white rounded-xl"></div>
                                 <div className="mt-2">Заголовок</div>
                                 <div className="flex gap-2 text-sm items-center">
