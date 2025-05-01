@@ -1,22 +1,22 @@
-import { Header } from '@/app/_components/header';
-import { LoginForm } from '@/app/auth/login/_components/login-form';
+import { Metadata } from 'next';
+import { SettingsForm } from './_components/settings-form';
 import NotFound from '@/components/not-found';
 import { getAuthStatus } from '@/lib/get-auth-status';
-import { Metadata } from 'next';
+import { Header } from '@/app/_components/header';
 
 export const metadata: Metadata = {
-    title: 'Авторизация',
+    title: 'Настройки',
 };
 
-export default async function Login() {
+export default async function UserSettings() {
     const isAuth = await getAuthStatus();
-    if (isAuth) return <NotFound />;
+    if (!isAuth) return <NotFound />;
     return (
         <>
             <Header />
             <div className="flex w-full items-center justify-center p-6 md:p-10 mt-16">
                 <div className="w-full max-w-sm">
-                    <LoginForm />
+                    <SettingsForm />
                 </div>
             </div>
         </>
