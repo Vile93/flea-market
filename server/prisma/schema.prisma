@@ -42,21 +42,32 @@ model Review {
   updatedAt DateTime   @updatedAt
 }
 
+model OfferImages {
+  id        Int    @id @default(autoincrement())
+  link      String
+  offer_ref Offer  @relation(fields: [offer_id], references: [id])
+  offer_id  Int
+  order     Int
+}
+
 model Offer {
-  id                Int         @id @default(autoincrement())
+  id                Int           @id @default(autoincrement())
   title             String
   description       String
+  type              OfferType
+  price_type        PriceType
   price             Float
   user_id           Int
-  user_ref          User        @relation(fields: [user_id], references: [id])
+  user_ref          User          @relation(fields: [user_id], references: [id])
   type_id           Int
-  type_ref          Type        @relation(fields: [type_id], references: [id])
+  type_ref          Type          @relation(fields: [type_id], references: [id])
   region_id         Int
-  region_ref        Region      @relation(fields: [region_id], references: [id])
+  region_ref        Region        @relation(fields: [region_id], references: [id])
   user_customer_id  Int?
-  user_customer_ref User?       @relation("CustomerUser", fields: [user_customer_id], references: [id])
-  status            OfferStatus @default(MODERATE)
+  user_customer_ref User?         @relation("CustomerUser", fields: [user_customer_id], references: [id])
+  status            OfferStatus   @default(MODERATE)
   Review            Review[]
+  OfferImages       OfferImages[]
 }
 
 model Type {
@@ -108,4 +119,15 @@ enum Role {
 enum ReviewType {
   SELLER
   CUSTOMER
+}
+
+enum OfferType {
+  NEW
+  OLD
+}
+
+enum PriceType {
+  PAY
+  FREE
+  CONTRACT
 }

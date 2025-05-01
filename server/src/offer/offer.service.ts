@@ -3,7 +3,7 @@ import { CreateOfferDto } from './dto/create-offer.dto';
 import { UpdateOfferDto } from './dto/update-offer.dto';
 import { OfferRepositoryService } from 'src/offer/offer-repository.service';
 import { FindOfferDto } from 'src/offer/dto/find-offer.dto';
-import { Payload } from 'src/common/types/payload.interface';
+import { Payload } from 'src/common/types/payload.type';
 import { Role } from '@prisma/client';
 import { RegionRepositoryService } from 'src/region/region-repository.service';
 import { TypeRepositoryService } from 'src/type/type-repository.service';
@@ -17,9 +17,9 @@ export class OfferService {
     ) {}
 
     async create(createOfferDto: CreateOfferDto, payload: Payload) {
-        const { description, price, region_id, title, type_id } = createOfferDto;
-        const type = await this.typeRepository.find({ id: type_id });
-        if (!type) {
+        const { description, price, region_id, title, type_id, price_type, type } = createOfferDto;
+        const categoryType = await this.typeRepository.find({ id: type_id });
+        if (!categoryType) {
             throw new NotFoundException();
         }
         const region = await this.regionRepository.find({ id: region_id });
@@ -30,6 +30,8 @@ export class OfferService {
             description,
             price,
             title,
+            price_type,
+            type,
             region_ref: { connect: { id: region_id } },
             user_ref: { connect: { id: payload.userId } },
             type_ref: { connect: { id: type_id } },

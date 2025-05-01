@@ -1,5 +1,5 @@
 import { User as UserType } from '@prisma/client';
-import { Payload } from 'src/common/types/payload.interface';
+import { Payload } from 'src/common/types/payload.type';
 
 declare global {
     namespace Express {

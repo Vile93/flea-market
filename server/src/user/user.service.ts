@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FindCategoryDto } from 'src/category/dto/find-category.dto';
-import { Payload } from 'src/common/types/payload.interface';
+import { Payload } from 'src/common/types/payload.type';
 import { StorageService } from 'src/storage/storage.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';

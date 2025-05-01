@@ -12,6 +12,8 @@ import { TypeModule } from './type/type.module';
 import { CategoryModule } from './category/category.module';
 import { StorageModule } from './storage/storage.module';
 import { BcryptModule } from './bcrypt/bcrypt.module';
+import { OfferFilesModule } from './offer-files/offer-files.module';
+import { OfferImagesModule } from './offer-images/offer-images.module';
 
 @Module({
     imports: [
@@ -28,6 +30,8 @@ import { BcryptModule } from './bcrypt/bcrypt.module';
         CategoryModule,
         StorageModule,
         BcryptModule,
+        OfferFilesModule,
+        OfferImagesModule,
     ],
 })
 export class AppModule {}

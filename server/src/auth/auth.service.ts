@@ -3,7 +3,7 @@ import { UserRepositoryService } from 'src/user/user-repository.service';
 import { Role, User } from '@prisma/client';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
-import { Payload } from 'src/common/types/payload.interface';
+import { Payload } from 'src/common/types/payload.type';
 import { JwtService } from 'src/jwt/jwt.service';
 import { BcryptService } from 'src/bcrypt/bcrypt.service';
 import { Response } from 'express';

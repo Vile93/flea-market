@@ -1,6 +1,6 @@
 import { Role } from '@prisma/client';
 import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, Length } from 'class-validator';
-import { IRole } from 'src/common/types/role.interface';
+import { IRole } from 'src/common/types/role.type';
 import { keys } from 'ts-transformer-keys';
 
 export class CreateUserDto {

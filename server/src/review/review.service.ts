@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Payload } from 'src/common/types/payload.interface';
+import { Payload } from 'src/common/types/payload.type';
 import { OfferRepositoryService } from 'src/offer/offer-repository.service';
 import { CreateReviewDto } from 'src/review/dto/create-review.dto';
 import { FindReviewDto } from 'src/review/dto/find-review-dto';
