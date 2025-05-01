@@ -18,7 +18,6 @@ import { UserService } from './user.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Roles } from 'src/common/decorators/role.decorator';
 import { Role } from '@prisma/client';
-import { FindCategoryDto } from 'src/category/dto/find-category.dto';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';

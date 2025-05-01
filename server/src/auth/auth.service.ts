@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, Req, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { UserRepositoryService } from 'src/user/user-repository.service';
 import { Role, User } from '@prisma/client';
 import { AuthRegisterDto } from './dto/auth-register.dto';
@@ -6,6 +6,7 @@ import { JwtService as NestJwtService } from '@nestjs/jwt';
 import { Payload } from 'src/common/types/payload.interface';
 import { JwtService } from 'src/jwt/jwt.service';
 import { BcryptService } from 'src/bcrypt/bcrypt.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -56,14 +57,18 @@ export class AuthService {
         if (!payload) throw new UnauthorizedException();
         await this.jwtService.deleteRefesh(token);
     }
-    async jwt(@Req() token?: string) {
-        if (!token) throw new UnauthorizedException();
+    async jwt(@Req() token: string | null, @Res() res: Response) {
+        if (!token) {
+            throw new UnauthorizedException();
+        }
         const payload = await this.jwtService.verifyRefresh(token);
         if (!payload) {
+            res.clearCookie('refresh');
             throw new UnauthorizedException();
         }
         const dbToken = await this.jwtService.findRefresh(token);
         if (!dbToken) {
+            res.clearCookie('refresh');
             throw new UnauthorizedException();
         }
         const accessToken = await this.nestJwtService.signAsync({ userId: payload.userId, role: payload.role });

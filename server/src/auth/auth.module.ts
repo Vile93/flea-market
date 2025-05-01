@@ -22,7 +22,7 @@ import { BcryptModule } from 'src/bcrypt/bcrypt.module';
             useFactory(configService: ConfigService) {
                 return {
                     secret: configService.getOrThrow(ENV.JWT_ACCESS_SECRET),
-                    signOptions: { expiresIn: '1d' },
+                    signOptions: { expiresIn: '1min' },
                 };
             },
         }),

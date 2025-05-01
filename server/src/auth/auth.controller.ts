@@ -33,8 +33,8 @@ export class AuthController {
     }
 
     @Post('jwt')
-    async jwt(@Req() req: Request) {
+    async jwt(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
         const token: string = req.cookies['refresh'];
-        return this.authService.jwt(token);
+        return this.authService.jwt(token, res);
     }
 }

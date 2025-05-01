@@ -12,7 +12,7 @@ export class JwtService {
     ) {}
     async verifyRefresh(token: string): Promise<Payload | null> {
         try {
-            return this.jwtService.verifyAsync<Payload>(token);
+            return await this.jwtService.verifyAsync<Payload>(token);
         } catch {
             return null;
         }
