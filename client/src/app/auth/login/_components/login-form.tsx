@@ -44,7 +44,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         if (loginFetch.isSuccessCompleted && loginFetch.statusCode === 201) {
             localStorage.setItem('token', (loginFetch.data as { token: string }).token);
             router.push('/');
-            router.refresh();
         }
     }, [loginFetch.isSuccessCompleted]);
 
@@ -53,7 +52,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             <div className={cn('flex flex-col gap-6', className)} {...props}>
                 <Card>
                     <CardContent>
-                        <Spinner size={'large'} className="mt-24" />
+                        <Spinner size={'large'} />
                     </CardContent>
                 </Card>
             </div>

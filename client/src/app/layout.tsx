@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Header } from '@/app/_components/header';
+import AuthProvider from '@/contexts/auth.context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,8 +19,9 @@ export default function RootLayout({
         <html lang="ru">
             <body className={`${inter.className} antialiased`}>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                    <Header />
-                    <main className="container mx-auto px-2">{children}</main>
+                    <AuthProvider>
+                        <div className="container mx-auto px-2">{children}</div>
+                    </AuthProvider>
                 </ThemeProvider>
             </body>
         </html>

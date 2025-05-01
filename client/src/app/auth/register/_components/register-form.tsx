@@ -49,16 +49,14 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
         if (registerFetch.isSuccessCompleted && registerFetch.statusCode === 201) {
             localStorage.setItem('token', (registerFetch.data as { token: string }).token);
             router.push('/');
-            router.refresh();
         }
     }, [registerFetch.isSuccessCompleted]);
-    console.log(errors);
     if (registerFetch.isLoading)
         return (
             <div className={cn('flex flex-col gap-6', className)} {...props}>
                 <Card>
                     <CardContent>
-                        <Spinner size={'large'} className="mt-24" />
+                        <Spinner size={'large'} />
                     </CardContent>
                 </Card>
             </div>

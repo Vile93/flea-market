@@ -1,5 +1,11 @@
 import NotFound from '@/components/not-found';
+import { Header } from './_components/header';
 
 export default function NotFoundPage() {
-    return <NotFound />;
+    return (
+        <>
+            <Header />
+            <NotFound />
+        </>
+    );
 }
