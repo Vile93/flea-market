@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateTypeDto {
     @IsNotEmpty()
@@ -9,5 +9,6 @@ export class CreateTypeDto {
 
     @IsNotEmpty()
     @IsInt()
+    @IsPositive()
     category_id: number;
 }

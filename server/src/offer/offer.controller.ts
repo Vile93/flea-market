@@ -1,4 +1,19 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Req, ParseIntPipe } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Param,
+    Delete,
+    Put,
+    Req,
+    ParseIntPipe,
+    UseInterceptors,
+    UploadedFile,
+    ParseFilePipe,
+    FileTypeValidator,
+    UseGuards,
+} from '@nestjs/common';
 import { OfferService } from './offer.service';
 import { CreateOfferDto } from './dto/create-offer.dto';
 import { UpdateOfferDto } from './dto/update-offer.dto';
@@ -6,6 +21,10 @@ import { Roles } from 'src/common/decorators/role.decorator';
 import { Role } from '@prisma/client';
 import { Request } from 'express';
 import { FindOfferDto } from 'src/offer/dto/find-offer.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MaxFileSizeValidator } from '@nestjs/common';
+import { MAX_ALLOW_FILE_SIZE } from 'src/common/constants';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @Controller('offers')
 export class OfferController {
@@ -15,6 +34,26 @@ export class OfferController {
     @Post()
     create(@Body() createOfferDto: CreateOfferDto, @Req() req: Request) {
         return this.offerService.create(createOfferDto, req.user.payload);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('image')
+    @UseInterceptors(FileInterceptor('image'))
+    createImage(
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                    new MaxFileSizeValidator({
+                        maxSize: MAX_ALLOW_FILE_SIZE,
+                        message: 'File size exceeded',
+                    }),
+                    new FileTypeValidator({ fileType: /^image/ }),
+                ],
+            }),
+        )
+        image: Express.Multer.File,
+    ) {
+        return this.offerService.createImage(image);
     }
 
     @Get()

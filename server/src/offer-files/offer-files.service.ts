@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { MAX_ALLOW_FILE_SIZE } from 'src/common/constants';
+import { BUCKET_NAMES, MAX_ALLOW_FILE_SIZE } from 'src/common/constants';
 import { Payload } from 'src/common/types/payload.type';
 import { OfferImagesRepositoryService } from 'src/offer-images/offer-images-repository.service';
 import { OfferRepositoryService } from 'src/offer/offer-repository.service';
@@ -29,7 +29,7 @@ export class OfferFilesService {
         }
         const fileUrls: string[] = [];
         for (const file of files.images) {
-            const url = await this.storage.uploadFile(file, 'public-read');
+            const url = await this.storage.uploadFile(file, BUCKET_NAMES.TEMP_IMAGES, 'public-read');
             if (!url) {
                 throw new BadRequestException();
             }

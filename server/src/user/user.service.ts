@@ -7,6 +7,7 @@ import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 import { UserEntity } from 'src/user/entity/user.entity';
 import { UserRepositoryService } from 'src/user/user-repository.service';
 import { BcryptService } from 'src/bcrypt/bcrypt.service';
+import { BUCKET_NAMES } from 'src/common/constants';
 @Injectable()
 export class UserService {
     constructor(
@@ -47,10 +48,10 @@ export class UserService {
             throw new NotFoundException();
         }
         if (logo && user.avatar_path) {
-            await this.storageService.deleteFile(user.avatar_path);
+            await this.storageService.deleteFile(user.avatar_path, BUCKET_NAMES.AVA_IMAGES);
         }
         if (logo) {
-            const logoPath = await this.storageService.uploadFile(logo, 'public-read');
+            const logoPath = await this.storageService.uploadFile(logo, BUCKET_NAMES.AVA_IMAGES, 'public-read');
             const updatedUser = await this.userRepository.update({
                 data: { ...updateUserDto, avatar_path: logoPath },
                 where: { id: payload.userId },
@@ -69,10 +70,10 @@ export class UserService {
             throw new NotFoundException();
         }
         if (logo && user.avatar_path) {
-            await this.storageService.deleteFile(user.avatar_path);
+            await this.storageService.deleteFile(user.avatar_path, BUCKET_NAMES.AVA_IMAGES);
         }
         if (logo) {
-            const logoPath = await this.storageService.uploadFile(logo, 'public-read');
+            const logoPath = await this.storageService.uploadFile(logo, BUCKET_NAMES.AVA_IMAGES, 'public-read');
             const updatedUser = await this.userRepository.update({
                 data: { ...updateUserDto, avatar_path: logoPath },
                 where: { id },

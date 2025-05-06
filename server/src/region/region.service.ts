@@ -4,19 +4,27 @@ import { RegionRepositoryService } from './region-repository.service';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { FindRegionDto } from './dto/find-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
+import { LocationRepositoryService } from 'src/location/location-repository.service';
 
 @Injectable()
 export class RegionService {
-    constructor(private readonly regionRepository: RegionRepositoryService) {}
+    constructor(
+        private readonly regionRepository: RegionRepositoryService,
+        private readonly locationRepository: LocationRepositoryService,
+    ) {}
     async create(createRegionDto: CreateRegionDto) {
         const { location_id, name } = createRegionDto;
         const region = await this.regionRepository.find({ name_location_id: { location_id, name } });
         if (region) {
             throw new ConflictException('A region with this name already exists in this location');
         }
+        const location = await this.locationRepository.find({ id: location_id });
+        if (!location) {
+            throw new NotFoundException();
+        }
         return this.regionRepository.create({
-            location_ref: { connect: { id: createRegionDto.location_id } },
-            name: createRegionDto.name,
+            location_ref: { connect: { id: location_id } },
+            name,
         });
     }
 

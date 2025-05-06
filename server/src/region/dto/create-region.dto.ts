@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MinLength, MaxLength, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength, MaxLength, IsInt, IsPositive } from 'class-validator';
 
 export class CreateRegionDto {
     @IsNotEmpty()
@@ -9,5 +9,6 @@ export class CreateRegionDto {
 
     @IsNotEmpty()
     @IsInt()
+    @IsPositive()
     location_id: number;
 }
