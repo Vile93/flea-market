@@ -19,6 +19,7 @@ export const useFetch = <T, Y>(callback: (...args: Y[]) => Promise<Response>, ..
                 const res = await fetchJWT();
                 if (res.status === 401) {
                     setIsAuth(false);
+                    globalThis?.localStorage?.removeItem('token');
                     authContext?.setAuth((prev) => ({ ...prev, isAuth: false }));
                 } else {
                     const { token } = (await res.json()) as { token: string };

@@ -12,3 +12,20 @@ export const AUTH_ROUTES = {
     RESET_PASSWORD: '/auth/reset-password',
     EMAIL_CONFIRMATION: '/auth/email-confirmation',
 };
+
+export const PANEL_ROUTES = {
+    ADMIN: {
+        CATEGORIES: '/panel/categories',
+        TYPES: '/panel/types',
+        REGIONS: '/panel/regions',
+        LOCATIONS: '/panel/locations',
+        USERS: '/panel/users',
+        CHATS: '/panel/chats',
+        REPORTS: '/panel/reports',
+    },
+    MODERATOR: {
+        USERS: '/panel/users',
+        CHATS: '/panel/chats',
+        REPORTS: '/panel/reports',
+    },
+};

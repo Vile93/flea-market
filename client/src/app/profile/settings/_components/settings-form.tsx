@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useFetch } from '@/hooks/useFetch.hook';
+import { useFetch } from '@/hooks/use-fetch.hook';
 import { useCallback, useEffect, useState } from 'react';
 import * as FileUpload from '@/components/ui/file-upload';
 import { Upload } from 'lucide-react';

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import AuthProvider from '@/contexts/auth.context';
+import { Header } from './_components/header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     title: 'Zorka',
 };
 
-export default function RootLayout({
+export default function RootTemplate({
     children,
 }: Readonly<{
     children: React.ReactNode;
@@ -20,6 +21,7 @@ export default function RootLayout({
             <body className={`${inter.className} antialiased`}>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     <AuthProvider>
+                        <Header />
                         <div className="container mx-auto px-2">{children}</div>
                     </AuthProvider>
                 </ThemeProvider>
