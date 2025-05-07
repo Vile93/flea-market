@@ -46,7 +46,7 @@ export function Filter() {
     } | null>(null); */
     return (
         <>
-            <div className={`${styles.filter}`}>
+            <div className={`${styles.filter} mt-16`}>
                 <div className={`${styles.filters} sticky top-2`}>
                     <Card className={`${styles.categories} bg-transparent`}>
                         <CardContent>
