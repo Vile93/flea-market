@@ -1,3 +1,5 @@
+'use client';
+
 import { fetchJWT } from '@/api/auth.api';
 import { AuthContext } from '@/contexts/auth.context';
 import { useContext, useState } from 'react';
@@ -61,6 +63,7 @@ export const useFetch = <T, Y>(callback: (...args: Y[]) => Promise<Response>, ..
     };
     return {
         data,
+        setData,
         fetchData,
         isAuth,
         isLoading,
