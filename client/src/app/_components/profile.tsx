@@ -10,14 +10,13 @@ import { AUTH_ROUTES, PANEL_ROUTES, PROFILE_ROUTES } from '@/constants/route.con
 import { Roles } from '@/types/roles.enum';
 import Link from 'next/link';
 import { UserDropdownTrigger } from './user-dropdown-trigger';
-import { Separator } from '@/components/ui/separator';
-import { IJwtPayload } from '@/types/jwt-payload.interface';
+import { cookies } from 'next/headers';
+import { parseJWT } from '@/lib/parse-jwt';
 
-interface ProfileProps {
-    payload: IJwtPayload | null;
-}
-
-export function Profile({ payload }: ProfileProps) {
+export async function Profile() {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('refresh')?.value;
+    const payload = parseJWT(token ?? null);
     if (!payload) {
         return (
             <>
@@ -50,6 +49,7 @@ export function Profile({ payload }: ProfileProps) {
                     <Link href={PANEL_ROUTES.ADMIN.TYPES}>
                         <DropdownMenuItem className="cursor-pointer">Типы</DropdownMenuItem>
                     </Link>
+                    <DropdownMenuSeparator />
                     <Logout />
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -70,7 +70,7 @@ export function Profile({ payload }: ProfileProps) {
                     <Link href={PANEL_ROUTES.MODERATOR.REPORTS}>
                         <DropdownMenuItem className="cursor-pointer">Отчеты</DropdownMenuItem>
                     </Link>
-                    <Separator />
+                    <DropdownMenuSeparator />
                     <Logout />
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -93,7 +93,6 @@ export function Profile({ payload }: ProfileProps) {
                     <DropdownMenuItem className="cursor-pointer">Настройки</DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
-                <Separator />
                 <Logout />
             </DropdownMenuContent>
         </DropdownMenu>

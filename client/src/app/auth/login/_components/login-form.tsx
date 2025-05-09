@@ -10,7 +10,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/validators/auth.validator';
 import { AUTH_ROUTES } from '@/constants/route.constant';
-import { useFetch } from '@/hooks/useFetch.hook';
+import { useFetch } from '@/hooks/use-fetch.hook';
 import { fetchLogin } from '@/api/auth.api';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -44,6 +44,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         if (loginFetch.isSuccessCompleted && loginFetch.statusCode === 201) {
             localStorage.setItem('token', (loginFetch.data as { token: string }).token);
             router.push('/');
+            router.refresh();
         }
     }, [loginFetch.isSuccessCompleted]);
 
