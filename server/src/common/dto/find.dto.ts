@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { IsOptional, IsPositive, IsInt } from 'class-validator';
+import { IsOptional, IsPositive, IsInt, IsIn } from 'class-validator';
 import { findDataOpts } from 'src/common/decorators/find-data-opts.decorator';
 import { transformToNumber } from 'src/common/decorators/transform-to-number.decorator';
 import { FindOpts } from 'src/common/types/find-opts.interface';
@@ -31,4 +31,8 @@ export class FindDto {
     orderField?: string;
     @IsOptional()
     orderDirection?: string;
+
+    @IsOptional()
+    @IsIn(['string', 'number', 'boolean'])
+    typeOfSearchField?: string;
 }

@@ -6,6 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CategoryRepositoryService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async count(where: Prisma.CategoryWhereInput): Promise<number> {
+        return this.prisma.category.count({ where });
+    }
     async find(where: Prisma.CategoryWhereUniqueInput): Promise<Category | null> {
         return this.prisma.category.findUnique({ where });
     }

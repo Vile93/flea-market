@@ -1,7 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { toObj } from 'src/common/utils/to-obj.utils';
 import { CategoryRepositoryService } from './category-repository.service';
 import { FindCategoryDto } from './dto/find-category.dto';
 
@@ -17,19 +16,13 @@ export class CategoryService {
     }
 
     async findAll(findCategoryDto: FindCategoryDto) {
-        const { orderDirection, orderField, searchField, searchValue, skip, take } = findCategoryDto;
-        return this.categoryRepository.findAll(
-            toObj({
-                skip,
-                take,
-                orderBy: {
-                    [orderField as string]: orderDirection,
-                },
-                where: {
-                    [searchField as string]: searchValue,
-                },
-            }),
-        );
+        console.log(findCategoryDto);
+        const totalCount = await this.categoryRepository.count(findCategoryDto.data.where ?? {});
+        const categories = await this.categoryRepository.findAll(findCategoryDto.data);
+        return {
+            totalCount,
+            data: categories,
+        };
     }
 
     async findById(id: number) {
