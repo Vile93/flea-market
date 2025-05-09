@@ -15,9 +15,10 @@ export const fetchRegister = async (data: Register) => {
     });
 };
 
-export const fetchJWT = () => {
+export const fetchJWT = (...opts: RequestInit[]) => {
     return myFetch('/auth/jwt', {
         method: 'POST',
+        ...opts,
     });
 };
 
