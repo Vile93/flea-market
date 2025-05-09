@@ -1,4 +1,3 @@
-import { Header } from '@/app/_components/header';
 import { Title } from '@/components/title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import styles from './style.module.css';
@@ -8,7 +7,6 @@ import { SendHorizontal } from 'lucide-react';
 export default function Chats() {
     return (
         <>
-            <Header />
             <Card className="mt-16">
                 <CardHeader>
                     <div className="flex gap-2">

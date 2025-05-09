@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AUTH_ROUTES } from '@/constants/route.constant';
-import { useFetch } from '@/hooks/useFetch.hook';
+import { useFetch } from '@/hooks/use-fetch.hook';
 import { fetchRegister } from '@/api/auth.api';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -49,6 +49,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
         if (registerFetch.isSuccessCompleted && registerFetch.statusCode === 201) {
             localStorage.setItem('token', (registerFetch.data as { token: string }).token);
             router.push('/');
+            router.refresh();
         }
     }, [registerFetch.isSuccessCompleted]);
     if (registerFetch.isLoading)
@@ -88,7 +89,6 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                                         className="mt-2"
                                         id="surname"
                                         placeholder="Иванов"
-                                        required
                                         {...register('surname')}
                                     />
                                     <FormError error={errors?.surname?.message} />

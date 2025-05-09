@@ -1,7 +1,3 @@
-export default function Regions() {
-    return (
-        <div>
-            <h1>Регионы</h1>
-        </div>
-    );
+export default async function Regions() {
+    return <div></div>;
 }
