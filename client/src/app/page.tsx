@@ -1,9 +1,11 @@
 import { Filter } from './_components/filter';
+import { getOfferCategoriesAndLocations } from '@/api/server.api';
 
-export default function Home() {
+export default async function Home() {
+    const data = await getOfferCategoriesAndLocations();
     return (
         <>
-            <Filter />
+            <Filter data={data} />
         </>
     );
 }

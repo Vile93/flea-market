@@ -7,9 +7,33 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SelectGroup } from '@/components/ui/select';
 import { MapPin, Search } from 'lucide-react';
 import styles from '../style.module.css';
+import { Category } from '@/types/category.interface';
+import { Location } from '@/types/location.interface';
+import { Type } from '@/types/type.interface';
+import { Region } from '@/types/region.interface';
 
-export function Filter() {
-    const data: TreeDataItem[] = [
+interface FilterProps {
+    data: { categories: (Category & { Type: Type[] })[]; locations: (Location & { Region: Region[] })[] };
+}
+
+export function Filter({ data }: FilterProps) {
+    const categories: TreeDataItem[] = data.categories?.map((category) => ({
+        id: category.id.toString(),
+        name: category.name,
+        children: category.Type?.map((type) => ({
+            id: type.id.toString(),
+            name: type.name,
+        })),
+    }));
+    const locations: TreeDataItem[] = data.locations?.map((location) => ({
+        id: location.id.toString(),
+        name: location.name,
+        children: location.Region?.map((region) => ({
+            id: region.id.toString(),
+            name: region.name,
+        })),
+    }));
+    /* [
         {
             id: '1',
             name: 'Item 1',
@@ -39,7 +63,7 @@ export function Filter() {
             name: 'Item 2 (draggable)',
             draggable: true,
         },
-    ];
+    ]; */
     /*   const [selectedSort, setSelectedSort] = useState<{
         type: string;
         isAsc: boolean;
@@ -50,7 +74,12 @@ export function Filter() {
                 <div className={`${styles.filters} sticky top-2`}>
                     <Card className={`${styles.categories} bg-transparent`}>
                         <CardContent>
-                            <TreeView data={data} onSelectChange={(e) => console.log(e)} />
+                            <TreeView data={categories} onSelectChange={(e) => console.log(e)} />
+                        </CardContent>
+                    </Card>
+                    <Card className={`${styles.locations} bg-transparent my-2`}>
+                        <CardContent>
+                            <TreeView data={locations} onSelectChange={(e) => console.log(e)} />
                         </CardContent>
                     </Card>
                     <Card className={`${styles.price} bg-transparent my-2`}>
