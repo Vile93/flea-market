@@ -15,7 +15,15 @@ export const registerSchema = loginSchema
     })
     .extend({
         name: z.string().nonempty('Это обязательное поле'),
-        surname: z.string().optional(),
+        surname: z
+            .string()
+            .optional()
+            .refine((surname) => surname === undefined || surname.length >= 3, {
+                message: 'Фамилия должна быть не менее 3 символов',
+            })
+            .refine((surname) => surname === undefined || surname.length <= 50, {
+                message: 'Фамилия должна быть не более 50 символов',
+            }),
         username: z
             .string()
             .nonempty('Это обязательное поле')
@@ -25,7 +33,7 @@ export const registerSchema = loginSchema
         phone: z
             .string()
             .nonempty('Это обязательное поле')
-            .max(12, 'Максимальная допустимая длина номера телефона 12 символов')
+            .length(12, 'Номер телефона должен содержать 12 символов')
             .refine(
                 (phone) => {
                     const phoneRegex = new RegExp(/^375/);

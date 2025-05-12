@@ -6,3 +6,5 @@ export interface Category {
 export interface CreateCategory {
     name: string;
 }
+
+export type UpdateCategory = Partial<CreateCategory>;
