@@ -1,13 +1,13 @@
 'use client';
 
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
-import { ColumnDef } from '@tanstack/react-table';
-import { Category } from '@/types/category.interface';
+import { deleteRegion } from '@/api/region.api';
+import RegionUpdateModal from '@/app/panel/regions/_components/region-update-modal';
 import DataTableAction from '@/components/table/data-table-action';
-import { deleteCategory } from '@/api/category.api';
-import CategoryUpdateModal from '@/app/panel/categories/_components/category-update-modal';
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
+import { Region } from '@/types/region.interface';
+import { ColumnDef } from '@tanstack/react-table';
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Region>[] = [
     {
         id: 'actions',
         meta: {
@@ -16,10 +16,10 @@ export const columns: ColumnDef<Category>[] = [
         cell: ({ row }) => {
             return (
                 <DataTableAction
-                    deleteFetch={deleteCategory}
+                    deleteFetch={deleteRegion}
                     data={row.original}
                     id={row.original.id.toString()}
-                    updateModal={<CategoryUpdateModal />}
+                    updateModal={<RegionUpdateModal />}
                 />
             );
         },
@@ -29,9 +29,7 @@ export const columns: ColumnDef<Category>[] = [
         header: ({ column }) => {
             return <DataTableColumnHeader column={column} title="Айди" />;
         },
-        meta: {
-            label: 'Айди',
-        },
+        meta: { label: 'Айди' },
     },
     {
         accessorKey: 'name',
@@ -40,6 +38,15 @@ export const columns: ColumnDef<Category>[] = [
         },
         meta: {
             label: 'Название',
+        },
+    },
+    {
+        accessorKey: 'location_id',
+        header: ({ column }) => {
+            return <DataTableColumnHeader column={column} title="Локация" />;
+        },
+        meta: {
+            label: 'Локация',
         },
     },
 ] as const;

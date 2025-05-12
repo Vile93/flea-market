@@ -1,13 +1,12 @@
 'use client';
 
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
-import { ColumnDef } from '@tanstack/react-table';
-import { Category } from '@/types/category.interface';
 import DataTableAction from '@/components/table/data-table-action';
-import { deleteCategory } from '@/api/category.api';
-import CategoryUpdateModal from '@/app/panel/categories/_components/category-update-modal';
-
-export const columns: ColumnDef<Category>[] = [
+import { deleteLocation } from '@/api/location.api';
+import { ColumnDef } from '@tanstack/react-table';
+import { Location } from '@/types/location.interface';
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
+import LocationUpdateModal from '@/app/panel/locations/_components/location-update-modal';
+export const columns: ColumnDef<Location>[] = [
     {
         id: 'actions',
         meta: {
@@ -16,10 +15,10 @@ export const columns: ColumnDef<Category>[] = [
         cell: ({ row }) => {
             return (
                 <DataTableAction
-                    deleteFetch={deleteCategory}
+                    deleteFetch={deleteLocation}
                     data={row.original}
                     id={row.original.id.toString()}
-                    updateModal={<CategoryUpdateModal />}
+                    updateModal={<LocationUpdateModal />}
                 />
             );
         },
@@ -42,4 +41,4 @@ export const columns: ColumnDef<Category>[] = [
             label: 'Название',
         },
     },
-] as const;
+];

@@ -1,13 +1,13 @@
 'use client';
 
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
-import { ColumnDef } from '@tanstack/react-table';
-import { Category } from '@/types/category.interface';
+import { deleteType } from '@/api/type.api';
+import TypeUpdateModal from '@/app/panel/types/_components/type-update-modal';
 import DataTableAction from '@/components/table/data-table-action';
-import { deleteCategory } from '@/api/category.api';
-import CategoryUpdateModal from '@/app/panel/categories/_components/category-update-modal';
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
+import { Type } from '@/types/type.interface';
+import { ColumnDef } from '@tanstack/react-table';
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Type>[] = [
     {
         id: 'actions',
         meta: {
@@ -16,10 +16,10 @@ export const columns: ColumnDef<Category>[] = [
         cell: ({ row }) => {
             return (
                 <DataTableAction
-                    deleteFetch={deleteCategory}
+                    deleteFetch={deleteType}
                     data={row.original}
                     id={row.original.id.toString()}
-                    updateModal={<CategoryUpdateModal />}
+                    updateModal={<TypeUpdateModal />}
                 />
             );
         },
@@ -29,17 +29,20 @@ export const columns: ColumnDef<Category>[] = [
         header: ({ column }) => {
             return <DataTableColumnHeader column={column} title="Айди" />;
         },
-        meta: {
-            label: 'Айди',
-        },
+        meta: { label: 'Айди' },
     },
     {
         accessorKey: 'name',
         header: ({ column }) => {
             return <DataTableColumnHeader column={column} title="Название" />;
         },
-        meta: {
-            label: 'Название',
-        },
+        meta: { label: 'Название' },
     },
-] as const;
+    {
+        accessorKey: 'category_id',
+        header: ({ column }) => {
+            return <DataTableColumnHeader column={column} title="Айди категории" />;
+        },
+        meta: { label: 'Айди категории' },
+    },
+];

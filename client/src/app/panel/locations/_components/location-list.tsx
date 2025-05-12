@@ -1,25 +1,24 @@
 'use client';
 
-import { getCategories } from '@/api/category.api';
+import { ColumnDef } from '@tanstack/react-table';
+import { Location } from '@/types/location.interface';
 import DataTableWrapper from '@/components/table/data-table-wrapper';
 import { useFetch } from '@/hooks/use-fetch.hook';
-import { Category } from '@/types/category.interface';
 import { IQueryPanelTable } from '@/types/query.interface';
+import { getLocations } from '@/api/location.api';
 import { ISearchField } from '@/types/search-field.interface';
-import { ColumnDef } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
 
-interface CategoryListProps {
-    columns: ColumnDef<Category>[];
-    data: Category[];
+interface LocationListProps {
+    columns: ColumnDef<Location>[];
+    data: Location[];
     totalCount: number;
     constantsSearchField: ISearchField[];
     addModal: React.ReactElement<{ setIsOpenAddModal: Dispatch<SetStateAction<boolean>> }>;
 }
 
-export default function CategoryList({ columns, data, totalCount, constantsSearchField, addModal }: CategoryListProps) {
-    const fetcher = useFetch<{ data: Category[]; totalCount: number }, IQueryPanelTable>(getCategories);
-
+export default function LocationList({ columns, data, totalCount, constantsSearchField, addModal }: LocationListProps) {
+    const fetcher = useFetch<{ data: Location[]; totalCount: number }, IQueryPanelTable>(getLocations);
     return (
         <DataTableWrapper
             fetcher={fetcher}
