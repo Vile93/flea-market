@@ -1,10 +1,9 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { toObj } from 'src/common/utils/to-obj.utils';
 import { RegionRepositoryService } from './region-repository.service';
 import { CreateRegionDto } from './dto/create-region.dto';
-import { FindRegionDto } from './dto/find-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
 import { LocationRepositoryService } from 'src/location/location-repository.service';
+import { FindOpts } from 'src/common/types/find-opts.interface';
 
 @Injectable()
 export class RegionService {
@@ -20,7 +19,7 @@ export class RegionService {
         }
         const location = await this.locationRepository.find({ id: location_id });
         if (!location) {
-            throw new NotFoundException();
+            throw new NotFoundException('Location with this id not found');
         }
         return this.regionRepository.create({
             location_ref: { connect: { id: location_id } },
@@ -28,20 +27,10 @@ export class RegionService {
         });
     }
 
-    async findAll(findRegionDto: FindRegionDto) {
-        const { orderDirection, orderField, searchField, searchValue, skip, take } = findRegionDto;
-        return this.regionRepository.findAll(
-            toObj({
-                skip,
-                take,
-                orderBy: {
-                    [orderField as string]: orderDirection,
-                },
-                where: {
-                    [searchField as string]: searchValue,
-                },
-            }),
-        );
+    async findAll(findOpts: FindOpts) {
+        const totalCount = await this.regionRepository.count(findOpts.where);
+        const regions = await this.regionRepository.findAll(findOpts);
+        return { totalCount, data: regions };
     }
 
     async findById(id: number) {
@@ -53,9 +42,20 @@ export class RegionService {
     }
 
     async update(id: number, updateRegionDto: UpdateRegionDto) {
-        const region = await this.regionRepository.find({ id });
-        if (region) {
-            throw new ConflictException('A region with this name already exists in this location');
+        const region = await this.regionRepository.find({
+            id,
+        });
+        const { location_id, name } = updateRegionDto;
+        if (!region) {
+            throw new NotFoundException('Region with this id not found');
+        }
+        if (location_id && name) {
+            const region = await this.regionRepository.find({
+                name_location_id: { location_id, name },
+            });
+            if (region) {
+                throw new ConflictException('A region with this name already exists in this location');
+            }
         }
         return this.regionRepository.update({ where: { id }, data: updateRegionDto });
     }

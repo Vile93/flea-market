@@ -6,6 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class LocationRepositoryService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async count(where: Prisma.LocationWhereInput): Promise<number> {
+        return this.prisma.location.count({ where });
+    }
     async find(where: Prisma.LocationWhereUniqueInput): Promise<Location | null> {
         return this.prisma.location.findUnique({ where });
     }

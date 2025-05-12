@@ -1,5 +1,5 @@
 import { Role } from '@prisma/client';
-import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, Length } from 'class-validator';
+import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 import { IRole } from 'src/common/types/role.type';
 import { keys } from 'ts-transformer-keys';
 
@@ -36,7 +36,7 @@ export class CreateUserDto {
     @IsIn(keys<Omit<IRole, typeof Role.ROOT>>())
     role: Role;
 
-    @IsPhoneNumber()
     @IsString()
+    @Length(12)
     phone: string;
 }

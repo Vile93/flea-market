@@ -2,7 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryRepositoryService } from './category-repository.service';
-import { FindCategoryDto } from './dto/find-category.dto';
+import { FindOpts } from 'src/common/types/find-opts.interface';
 
 @Injectable()
 export class CategoryService {
@@ -15,14 +15,17 @@ export class CategoryService {
         return this.categoryRepository.create(createCategoryDto);
     }
 
-    async findAll(findCategoryDto: FindCategoryDto) {
-        console.log(findCategoryDto);
-        const totalCount = await this.categoryRepository.count(findCategoryDto.data.where ?? {});
-        const categories = await this.categoryRepository.findAll(findCategoryDto.data);
+    async findAll(findOpts: FindOpts) {
+        const totalCount = await this.categoryRepository.count(findOpts.where ?? {});
+        const categories = await this.categoryRepository.findAll(findOpts);
         return {
             totalCount,
             data: categories,
         };
+    }
+    async findAllWithNested() {
+        const categories = await this.categoryRepository.findAll({ include: { Type: true } });
+        return categories;
     }
 
     async findById(id: number) {
@@ -34,7 +37,7 @@ export class CategoryService {
     }
 
     async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-        const category = await this.categoryRepository.find({ id });
+        const category = await this.categoryRepository.find({ name: updateCategoryDto.name });
         if (category) {
             throw new ConflictException('A category with this name already exists');
         }

@@ -17,7 +17,7 @@ export class RegionController {
 
     @Get()
     findAll(@Query() findRegionDto: FindRegionDto) {
-        return this.regionService.findAll(findRegionDto);
+        return this.regionService.findAll(findRegionDto.data);
     }
 
     @Get(':id')

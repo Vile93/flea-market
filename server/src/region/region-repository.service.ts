@@ -6,6 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class RegionRepositoryService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async count(where: Prisma.RegionWhereInput): Promise<number> {
+        return this.prisma.region.count({ where });
+    }
     async find(where: Prisma.RegionWhereUniqueInput): Promise<Region | null> {
         return this.prisma.region.findUnique({ where });
     }

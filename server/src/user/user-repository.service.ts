@@ -6,6 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UserRepositoryService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async count(where: Prisma.UserWhereInput): Promise<number> {
+        return this.prisma.user.count({ where });
+    }
     async find(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
         return this.prisma.user.findUnique({
             where,

@@ -17,7 +17,7 @@ export class TypeController {
 
     @Get()
     findAll(@Query() findTypeDto: FindTypeDto) {
-        return this.typeService.findAll(findTypeDto);
+        return this.typeService.findAll(findTypeDto.data);
     }
 
     @Get(':id')

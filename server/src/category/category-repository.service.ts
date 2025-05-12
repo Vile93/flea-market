@@ -7,7 +7,9 @@ export class CategoryRepositoryService {
     constructor(private readonly prisma: PrismaService) {}
 
     async count(where: Prisma.CategoryWhereInput): Promise<number> {
-        return this.prisma.category.count({ where });
+        return this.prisma.category.count({
+            where,
+        });
     }
     async find(where: Prisma.CategoryWhereUniqueInput): Promise<Category | null> {
         return this.prisma.category.findUnique({ where });
@@ -17,9 +19,10 @@ export class CategoryRepositoryService {
         take?: number;
         where?: Prisma.CategoryWhereInput;
         orderBy?: Prisma.CategoryOrderByWithRelationInput;
+        include?: Prisma.CategoryInclude;
     }): Promise<Category[]> {
-        const { skip, take, where, orderBy } = params;
-        return this.prisma.category.findMany({ skip, take, where, orderBy });
+        const { skip, take, where, orderBy, include } = params;
+        return this.prisma.category.findMany({ skip, take, where, orderBy, include });
     }
     async create(data: Prisma.CategoryCreateInput): Promise<Category> {
         return this.prisma.category.create({ data });

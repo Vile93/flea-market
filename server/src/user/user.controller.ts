@@ -32,14 +32,14 @@ export class UserController {
 
     @Post()
     @Roles(Role.ROOT)
-    create(@Body() createUserDto: CreateUserDto) {
-        return this.userService.create(createUserDto);
+    create(@Body() createUserDto: CreateUserDto, @Req() req: Request) {
+        return this.userService.create(createUserDto, req.user.payload);
     }
 
     @Roles(Role.ROOT, Role.ADMIN)
     @Get()
     findAll(@Query() findUserDto: FindUserDto) {
-        return this.userService.findAll(findUserDto);
+        return this.userService.findAll(findUserDto.data);
     }
 
     @Get('profile')
@@ -68,14 +68,15 @@ export class UserController {
     updateUserByAdmin(
         @Param('id', ParseIntPipe) id: number,
         @Body() updateUserDto: UpdateUserDto,
+        @Req() req: Request,
         @UploadedFile() logo: Express.Multer.File,
     ) {
-        return this.userService.updateUserByAdmin(id, logo, updateUserDto);
+        return this.userService.updateUserByAdmin(id, logo, req.user.payload, updateUserDto);
     }
 
     @Roles(Role.ROOT, Role.ADMIN)
     @Delete(':id')
-    delete(@Param('id', ParseIntPipe) id: number) {
-        return this.userService.delete(id);
+    delete(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+        return this.userService.delete(id, req.user.payload);
     }
 }
