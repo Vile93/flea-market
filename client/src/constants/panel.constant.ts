@@ -19,8 +19,6 @@ export const CATEGORY_COLUMNS: ISearchField[] = [
     { field: 'name', typeOfSearchField: 'string', russianName: 'Название' },
 ];
 
-export const CATEGORY_ADD_COLUMNS = [{ field: 'name', russianName: 'Имя', typeOfInput: 'input', type: 'text' }];
-
 export const TYPE_COLUMNS: ISearchField[] = [
     { field: 'id', typeOfSearchField: 'number', russianName: 'Айди' },
     { field: 'name', typeOfSearchField: 'string', russianName: 'Название' },
@@ -35,6 +33,7 @@ export const LOCATION_COLUMNS: ISearchField[] = [
 export const REGION_COLUMNS: ISearchField[] = [
     { field: 'id', typeOfSearchField: 'number', russianName: 'Айди' },
     { field: 'name', typeOfSearchField: 'string', russianName: 'Название' },
+    { field: 'location_id', typeOfSearchField: 'number', russianName: 'Айди локации' },
 ];
 
 export const USER_COLUMNS: ISearchField[] = [
@@ -42,7 +41,8 @@ export const USER_COLUMNS: ISearchField[] = [
     { field: 'name', typeOfSearchField: 'string', russianName: 'Имя' },
     { field: 'surname', typeOfSearchField: 'string', russianName: 'Фамилия' },
     { field: 'username', typeOfSearchField: 'string', russianName: 'Логин' },
-    { field: 'email', typeOfSearchField: 'string', russianName: 'Email' },
+    { field: 'role', typeOfSearchField: 'string', russianName: 'Роль' },
+    { field: 'email', typeOfSearchField: 'string', russianName: 'Почта' },
     { field: 'phone', typeOfSearchField: 'string', russianName: 'Телефон' },
     { field: 'is_verified', typeOfSearchField: 'boolean', russianName: 'Верифицирован' },
     { field: 'avatar_path', typeOfSearchField: 'string', russianName: 'Путь к аватарке' },

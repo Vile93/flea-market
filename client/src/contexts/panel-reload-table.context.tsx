@@ -3,8 +3,11 @@
 import { createContext, useEffect, useState } from 'react';
 
 type PanelReloadTableContextType = {
-    reload: () => void;
-    isReload: boolean;
+    reload: (reason?: string) => void;
+    reloadData: {
+        isReload: boolean;
+        reason?: string | null;
+    };
 };
 
 export const PanelReloadTableContext = createContext<PanelReloadTableContextType | null>(null);
@@ -14,15 +17,29 @@ interface PanelReloadTableContextProps {
 }
 
 export const PanelReloadTableProvider = ({ children }: PanelReloadTableContextProps) => {
-    const [isReload, setIsReload] = useState(false);
-    const reload = () => {
-        setIsReload(true);
+    const [reloadData, setReloadData] = useState<{
+        isReload: boolean;
+        reason?: string | null;
+    }>({
+        isReload: false,
+        reason: null,
+    });
+    const reload = (reason?: string) => {
+        setReloadData({
+            isReload: true,
+            reason,
+        });
     };
     useEffect(() => {
-        if (isReload) {
-            setIsReload(false);
+        if (reloadData.isReload) {
+            setReloadData({
+                isReload: false,
+                reason: null,
+            });
         }
-    }, [isReload]);
+    }, [reloadData.isReload]);
 
-    return <PanelReloadTableContext.Provider value={{ reload, isReload }}>{children}</PanelReloadTableContext.Provider>;
+    return (
+        <PanelReloadTableContext.Provider value={{ reload, reloadData }}>{children}</PanelReloadTableContext.Provider>
+    );
 };
