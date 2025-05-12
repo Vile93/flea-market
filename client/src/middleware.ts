@@ -14,6 +14,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next({
             headers: {
                 'x-pathname': pathname,
+                'x-role': payload?.role,
             },
         });
     }
@@ -35,6 +36,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next({
         headers: {
             'x-pathname': pathname,
+            'x-role': payload?.role,
         },
     });
 }
