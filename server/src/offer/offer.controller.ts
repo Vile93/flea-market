@@ -36,6 +36,11 @@ export class OfferController {
         return this.offerService.create(createOfferDto, req.user.payload);
     }
 
+    @Get('categories-and-locations')
+    findCategoriesAndLocations() {
+        return this.offerService.findCategoriesAndLocations();
+    }
+
     @UseGuards(JwtAuthGuard)
     @Post('image')
     @UseInterceptors(FileInterceptor('image'))

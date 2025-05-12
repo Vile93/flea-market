@@ -17,9 +17,10 @@ export class LocationRepositoryService {
         take?: number;
         where?: Prisma.LocationWhereInput;
         orderBy?: Prisma.LocationOrderByWithRelationInput;
+        include?: Prisma.LocationInclude;
     }): Promise<Location[]> {
-        const { skip, take, where, orderBy } = params;
-        return this.prisma.location.findMany({ skip, take, where, orderBy });
+        const { skip, take, where, orderBy, include } = params;
+        return this.prisma.location.findMany({ skip, take, where, orderBy, include });
     }
     async create(data: Prisma.LocationCreateInput): Promise<Location> {
         return this.prisma.location.create({ data });

@@ -10,6 +10,8 @@ import { TypeRepositoryService } from 'src/type/type-repository.service';
 import { StorageService } from 'src/storage/storage.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BUCKET_NAMES } from 'src/common/constants';
+import { CategoryRepositoryService } from 'src/category/category-repository.service';
+import { LocationRepositoryService } from 'src/location/location-repository.service';
 
 @Injectable()
 export class OfferService {
@@ -18,8 +20,24 @@ export class OfferService {
         private readonly regionRepository: RegionRepositoryService,
         private readonly typeRepository: TypeRepositoryService,
         private readonly storageService: StorageService,
+        private readonly categoryRepository: CategoryRepositoryService,
+        private readonly locationRepository: LocationRepositoryService,
         private readonly prisma: PrismaService,
     ) {}
+
+    async findCategoriesAndLocations() {
+        const categories = await this.categoryRepository.findAll({
+            include: {
+                Type: true,
+            },
+        });
+        const locations = await this.locationRepository.findAll({
+            include: {
+                Region: true,
+            },
+        });
+        return { categories, locations };
+    }
 
     async create(createOfferDto: CreateOfferDto, payload: Payload) {
         const { description, price, region_id, title, type_id, price_type, type, imagesLinks } = createOfferDto;
