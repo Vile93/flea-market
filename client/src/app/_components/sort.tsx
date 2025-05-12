@@ -2,7 +2,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 interface SortProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function Sort({ ...props }: SortProps) {
+export function Sort({ className, ...props }: SortProps) {
     return (
         <div {...props}>
             <Select>

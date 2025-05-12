@@ -36,7 +36,7 @@ export function Filter({ data }: FilterProps) {
             </div>
             <Sort className={`${styles.sort}`} />
             <Search className={`${styles.search}`} />
-            <Offers />
+            <Offers className={`${styles.offers}`} />
         </div>
     );
 }
