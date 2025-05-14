@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import * as FileUpload from '@/components/ui/file-upload';
 import { Label } from '@/components/ui/label';
-import { Upload } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 
 interface UploadImageProps {
     images: File[];
@@ -30,7 +30,14 @@ export function UploadImage({ images, setImages }: UploadImageProps) {
                     {images.map((file) => (
                         <FileUpload.Item key={file.name} value={file} className="flex justify-center w-48 sm:w-96">
                             <FileUpload.ItemPreview className="h-full w-full" />
-                            <FileUpload.ItemDelete className="w-full h-full absolute right-0" />
+
+                            <div className="absolute top-8 right-8 z-50 rounded-full bg-background-white">
+                                <FileUpload.ItemDelete className="w-full h-full cursor-pointer">
+                                    <div className="bg-white rounded-full p-1">
+                                        <X className="h-8 w-8 text-black" />
+                                    </div>
+                                </FileUpload.ItemDelete>
+                            </div>
                         </FileUpload.Item>
                     ))}
                 </FileUpload.List>
