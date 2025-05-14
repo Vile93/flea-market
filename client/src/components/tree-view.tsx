@@ -55,15 +55,18 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeProps>(
         const [selectedItemId, setSelectedItemId] = React.useState<string | undefined>(initialSelectedItemId);
 
         const [draggedItem, setDraggedItem] = React.useState<TreeDataItem | null>(null);
-
         const handleSelectChange = React.useCallback(
             (item: TreeDataItem | undefined) => {
+                if (selectedItemId === item?.id) {
+                    setSelectedItemId(undefined);
+                    return;
+                }
                 setSelectedItemId(item?.id);
                 if (onSelectChange) {
                     onSelectChange(item);
                 }
             },
-            [onSelectChange],
+            [onSelectChange, selectedItemId],
         );
 
         const handleDragStart = React.useCallback((item: TreeDataItem) => {
