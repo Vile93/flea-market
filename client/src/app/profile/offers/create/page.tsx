@@ -3,6 +3,12 @@ import { Nav } from '@/app/profile/offers/_components/nav';
 import { CreateForm } from '@/app/profile/offers/create/_components/create-form';
 import { Title } from '@/components/title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Создать объявление',
+    description: 'Создать объявление',
+};
 
 export default async function CreateOffer() {
     const data = await getOfferCategoriesAndLocations();

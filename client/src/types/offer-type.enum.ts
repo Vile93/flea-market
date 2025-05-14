@@ -1,4 +1,4 @@
 export enum OfferType {
-    NEW = 'new',
-    OLD = 'old',
+    NEW = 'NEW',
+    OLD = 'OLD',
 }

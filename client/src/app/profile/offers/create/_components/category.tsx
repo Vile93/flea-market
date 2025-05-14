@@ -8,15 +8,13 @@ interface CategoryProps {
     categories: (ICategory & { Type: IType[] })[];
     setCategory: (category: string) => void;
     setListOfTypes: (types: IType[]) => void;
-    setType: (type: string | null) => void;
 }
 
-export function Category({ category, categories, setCategory, setListOfTypes, setType }: CategoryProps) {
+export function Category({ category, categories, setCategory, setListOfTypes }: CategoryProps) {
     const onChange = (value: string) => {
         const selectedCategory = categories.find((category) => category.id.toString() === value);
         setListOfTypes(selectedCategory?.Type ?? []);
         setCategory(value);
-        setType(null);
     };
     return (
         <div className="flex flex-col gap-2">

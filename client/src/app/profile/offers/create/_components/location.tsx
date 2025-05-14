@@ -10,15 +10,13 @@ interface LocationProps {
     locations: (ILocation & { Region: IRegion[] })[];
     setLocation: (location: string) => void;
     setListOfRegions: (regions: IRegion[]) => void;
-    setRegion: (region: string | null) => void;
 }
 
-export function Location({ location, locations, setLocation, setListOfRegions, setRegion }: LocationProps) {
+export function Location({ location, locations, setLocation, setListOfRegions }: LocationProps) {
     const onChange = (value: string) => {
         const selectedLocation = locations.find((location) => location.id.toString() === value);
         setListOfRegions(selectedLocation?.Region ?? []);
         setLocation(value);
-        setRegion(null);
     };
     return (
         <div className="flex flex-col gap-2">

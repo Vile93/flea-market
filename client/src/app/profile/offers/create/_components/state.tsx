@@ -1,21 +1,21 @@
+import { FormError } from '@/components/form-error';
 import { Label } from '@/components/ui/label';
 
 import { SelectContent, SelectValue, SelectGroup, SelectItem, SelectTrigger } from '@/components/ui/select';
 
 import { Select } from '@/components/ui/select';
+import { OfferType } from '@/types/offer-type.enum';
 import { offerSchema } from '@/validators/offer.validator';
-import { Control, Controller, FieldValues } from 'react-hook-form';
-import { UseFormRegister } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { FieldErrors } from 'react-hook-form';
 import { z } from 'zod';
 
 interface StateProps {
-    register: UseFormRegister<z.infer<typeof offerSchema>>;
-    errors: FieldErrors<FieldValues>;
+    errors: FieldErrors<z.infer<typeof offerSchema>>;
     control: Control<z.infer<typeof offerSchema>>;
 }
 
-export function State({ register, errors, control }: StateProps) {
+export function State({ errors, control }: StateProps) {
     return (
         <div className="flex gap-2">
             <div className="flex flex-col gap-2">
@@ -26,17 +26,18 @@ export function State({ register, errors, control }: StateProps) {
                     render={({ field }) => (
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <SelectTrigger className="cursor-pointer">
-                                <SelectValue placeholder="новое" />
+                                <SelectValue placeholder={field.value} />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectItem value="new">новое</SelectItem>
-                                    <SelectItem value="old">б/у</SelectItem>
+                                    <SelectItem value={OfferType.NEW}>новое</SelectItem>
+                                    <SelectItem value={OfferType.OLD}>б/у</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     )}
                 />
+                <FormError error={errors.type?.message} />
             </div>
         </div>
     );

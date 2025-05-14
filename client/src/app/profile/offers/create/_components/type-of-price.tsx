@@ -8,6 +8,7 @@ import { FieldValues } from 'react-hook-form';
 import { UseFormRegister } from 'react-hook-form';
 import { FormError } from '@/components/form-error';
 import { z } from 'zod';
+import { PriceType } from '@/types/price-type.enum';
 
 interface TypeOfPriceProps {
     typeOfPrice: string | null;
@@ -26,7 +27,7 @@ export function TypeOfPrice({ typeOfPrice, setTypeOfPrice, register, errors, con
                 name="price_type"
                 render={({ field }) => (
                     <Select
-                        defaultValue="price"
+                        defaultValue={field.value}
                         onValueChange={(value) => {
                             field.onChange(value);
                             setTypeOfPrice(value);
@@ -37,15 +38,15 @@ export function TypeOfPrice({ typeOfPrice, setTypeOfPrice, register, errors, con
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectItem value="price">Платно</SelectItem>
-                                <SelectItem value="contract">Договорная</SelectItem>
-                                <SelectItem value="free">Бесплатно</SelectItem>
+                                <SelectItem value={PriceType.PAY}>Платно</SelectItem>
+                                <SelectItem value={PriceType.CONTRACT}>Договорная</SelectItem>
+                                <SelectItem value={PriceType.FREE}>Бесплатно</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
                 )}
             />
-            {typeOfPrice === 'price' ? (
+            {typeOfPrice === PriceType.PAY ? (
                 <>
                     <Input id="price" type="number" placeholder="0.99" {...register('price')} />
                     <FormError error={errors.price?.message as string} />
