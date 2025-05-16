@@ -61,7 +61,7 @@ export async function Profile() {
             <DropdownMenu>
                 <UserDropdownTrigger />
                 <DropdownMenuContent>
-                    <Link href={PANEL_ROUTES.MODERATOR.USERS}>
+                    {/*  <Link href={PANEL_ROUTES.MODERATOR.USERS}>
                         <DropdownMenuItem className="cursor-pointer">Пользователи</DropdownMenuItem>
                     </Link>
                     <Link href={PANEL_ROUTES.MODERATOR.CHATS}>
@@ -69,6 +69,9 @@ export async function Profile() {
                     </Link>
                     <Link href={PANEL_ROUTES.MODERATOR.REPORTS}>
                         <DropdownMenuItem className="cursor-pointer">Отчеты</DropdownMenuItem>
+                    </Link> */}
+                    <Link href={PANEL_ROUTES.MODERATOR.OFFERS}>
+                        <DropdownMenuItem className="cursor-pointer">Объявления</DropdownMenuItem>
                     </Link>
                     <DropdownMenuSeparator />
                     <Logout />

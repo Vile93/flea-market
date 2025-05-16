@@ -27,5 +27,6 @@ export const PANEL_ROUTES = {
         USERS: '/panel/users',
         CHATS: '/panel/chats',
         REPORTS: '/panel/reports',
+        OFFERS: '/panel/offers-on-moderation',
     },
 };

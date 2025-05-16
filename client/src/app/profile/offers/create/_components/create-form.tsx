@@ -84,7 +84,8 @@ export function CreateForm({ categories, locations }: CreateFormProps) {
     }, [sendOfferImage.isCompleted]);
     useEffect(() => {
         if (createOffer.isCompleted && createOffer.statusCode === 201) {
-            router.push(`/profile/offers/success/${createOffer.data?.id}`);
+            globalThis.sessionStorage.setItem('user-offer-message', 'Объявление успешно создано');
+            router.push(`/offers/success`);
         }
     }, [createOffer.isCompleted]);
     return (
@@ -132,7 +133,12 @@ export function CreateForm({ categories, locations }: CreateFormProps) {
                                 setImagesLinks={setImagesLinks}
                                 isLoading={sendOfferImage.isLoading}
                             />
-                            <Button className="self-start cursor-pointer" disabled={sendOfferImage.isLoading}>
+                            <Button
+                                className="self-start cursor-pointer"
+                                disabled={
+                                    sendOfferImage.isLoading || createOffer.isLoading || createOffer.statusCode === 201
+                                }
+                            >
                                 Создать
                             </Button>
                         </div>

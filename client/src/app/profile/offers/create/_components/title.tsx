@@ -17,7 +17,7 @@ export function Title({ register, errors }: TitleProps) {
             <Label className="text-lg" htmlFor="title">
                 Заголовок
             </Label>
-            <Input id="title" {...register('title')} />
+            <Input required id="title" {...register('title')} />
             <FormError error={errors.title?.message as string} />
         </div>
     );

@@ -5,6 +5,7 @@ import { offerSchema } from '@/validators/offer.validator';
 import { FieldValues } from 'react-hook-form';
 import { UseFormRegister } from 'react-hook-form';
 import { FieldErrors } from 'react-hook-form';
+import { z } from 'zod';
 
 interface DescriptionProps {
     register: UseFormRegister<z.infer<typeof offerSchema>>;
@@ -17,7 +18,7 @@ export function Description({ register, errors }: DescriptionProps) {
             <Label className="text-lg" htmlFor="description">
                 Описание
             </Label>
-            <Textarea id="description" {...register('description')} />
+            <Textarea required id="description" {...register('description')} />
             <FormError error={errors.description?.message as string} />
         </div>
     );
