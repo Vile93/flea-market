@@ -6,6 +6,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class OfferRepositoryService {
     constructor(private readonly prisma: PrismaService) {}
 
+    async count(where: Prisma.OfferWhereInput): Promise<number> {
+        return this.prisma.offer.count({ where });
+    }
     async find(where: Prisma.OfferWhereUniqueInput): Promise<Offer | null> {
         return this.prisma.offer.findUnique({ where });
     }

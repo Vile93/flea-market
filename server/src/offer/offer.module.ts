@@ -7,10 +7,11 @@ import { RegionModule } from 'src/region/region.module';
 import { StorageModule } from 'src/storage/storage.module';
 import { CategoryModule } from 'src/category/category.module';
 import { LocationModule } from 'src/location/location.module';
+import { OfferRejectedModule } from 'src/offer-rejected/offer-rejected.module';
 
 @Module({
     exports: [OfferRepositoryService],
-    imports: [TypeModule, RegionModule, StorageModule, CategoryModule, LocationModule],
+    imports: [TypeModule, RegionModule, StorageModule, CategoryModule, LocationModule, OfferRejectedModule],
     controllers: [OfferController],
     providers: [OfferService, OfferRepositoryService],
 })

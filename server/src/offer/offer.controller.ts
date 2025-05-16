@@ -25,6 +25,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { MaxFileSizeValidator } from '@nestjs/common';
 import { MAX_ALLOW_FILE_SIZE } from 'src/common/constants';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { FindModerateOfferDto } from 'src/offer/dto/find-moderate-offer.dto';
+import { UpdateModerateOfferDto } from 'src/offer/dto/update-moderate-offer.dto';
 
 @Controller('offers')
 export class OfferController {
@@ -66,9 +68,26 @@ export class OfferController {
         return this.offerService.findAll(findOfferDto);
     }
 
+    @Roles(Role.MODERATOR)
+    @Get('moderate')
+    findAllWithModerate(@Body() findModerateOfferDto: FindModerateOfferDto) {
+        return this.offerService.findAllWithModerate(findModerateOfferDto.data);
+    }
+
     @Get(':id')
     findById(@Param('id', ParseIntPipe) id: number) {
         return this.offerService.findById(id);
+    }
+
+    @Roles(Role.MODERATOR)
+    @Get(':id/moderate')
+    findModerateOffer(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+        return this.offerService.findByIdModerateOffer(id, req.user.payload);
+    }
+
+    @Put(':id/moderate')
+    updateModerateOffer(@Param('id', ParseIntPipe) id: number, @Body() updateModerateOfferDto: UpdateModerateOfferDto) {
+        return this.offerService.updateModerateOffer(id, updateModerateOfferDto);
     }
 
     @Roles(Role.ROOT, Role.ADMIN, Role.USER)

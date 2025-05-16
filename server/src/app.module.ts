@@ -14,6 +14,7 @@ import { StorageModule } from './storage/storage.module';
 import { BcryptModule } from './bcrypt/bcrypt.module';
 import { OfferFilesModule } from './offer-files/offer-files.module';
 import { OfferImagesModule } from './offer-images/offer-images.module';
+import { OfferRejectedModule } from './offer-rejected/offer-rejected.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { OfferImagesModule } from './offer-images/offer-images.module';
         BcryptModule,
         OfferFilesModule,
         OfferImagesModule,
+        OfferRejectedModule,
     ],
 })
 export class AppModule {}

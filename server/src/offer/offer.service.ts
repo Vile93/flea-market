@@ -4,7 +4,7 @@ import { UpdateOfferDto } from './dto/update-offer.dto';
 import { OfferRepositoryService } from 'src/offer/offer-repository.service';
 import { FindOfferDto } from 'src/offer/dto/find-offer.dto';
 import { Payload } from 'src/common/types/payload.type';
-import { Role } from '@prisma/client';
+import { OfferStatus, Role } from '@prisma/client';
 import { RegionRepositoryService } from 'src/region/region-repository.service';
 import { TypeRepositoryService } from 'src/type/type-repository.service';
 import { StorageService } from 'src/storage/storage.service';
@@ -12,6 +12,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { BUCKET_NAMES } from 'src/common/constants';
 import { CategoryRepositoryService } from 'src/category/category-repository.service';
 import { LocationRepositoryService } from 'src/location/location-repository.service';
+import { FindOpts } from 'src/common/types/find-opts.interface';
+import { UpdateModerateOfferDto } from 'src/offer/dto/update-moderate-offer.dto';
 
 @Injectable()
 export class OfferService {
@@ -37,6 +39,21 @@ export class OfferService {
             },
         });
         return { categories, locations };
+    }
+
+    async findAllWithModerate(findOpts: FindOpts) {
+        const totalCount = await this.offerRepository.count(findOpts.where ?? {});
+        const offers = await this.offerRepository.findAll({
+            ...findOpts,
+            where: {
+                ...findOpts.where,
+                status: OfferStatus.MODERATE,
+            },
+        });
+        return {
+            data: offers,
+            totalCount,
+        };
     }
 
     async create(createOfferDto: CreateOfferDto, payload: Payload) {
@@ -99,7 +116,42 @@ export class OfferService {
         if (!offer) {
             throw new NotFoundException();
         }
+        if (offer.status !== OfferStatus.ACCEPTED) {
+            throw new NotFoundException();
+        }
         return offer;
+    }
+
+    async findByIdModerateOffer(id: number, payload: Payload) {
+        if (payload.role !== Role.MODERATOR) {
+            throw new ForbiddenException();
+        }
+        const offer = await this.offerRepository.find({ id });
+        if (!offer || offer.status !== OfferStatus.MODERATE) {
+            throw new NotFoundException();
+        }
+        return offer;
+    }
+
+    async updateModerateOffer(id: number, updateModerateOffer: UpdateModerateOfferDto) {
+        const offer = await this.offerRepository.find({ id });
+        if (!offer || offer.status !== OfferStatus.MODERATE) {
+            throw new NotFoundException();
+        }
+        try {
+            const { content, status } = updateModerateOffer;
+            const updatedOffer = await this.prisma.$transaction(async (tx) => {
+                const updatedOffer = await tx.offer.update({ where: { id }, data: { status } });
+                if (content && status === OfferStatus.REJECTED) {
+                    await tx.offerRejected.create({ data: { content, offer_id: updatedOffer.id } });
+                }
+                return updatedOffer;
+            });
+            return updatedOffer;
+        } catch (err) {
+            console.log(err);
+            throw new BadRequestException();
+        }
     }
 
     async update(id: number, payload: Payload, updateOfferDto: UpdateOfferDto) {
