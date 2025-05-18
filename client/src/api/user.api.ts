@@ -3,16 +3,38 @@ import { setQuery } from '@/lib/set-query';
 import { IQueryPanelTable } from '@/types/query.interface';
 import { CreatePanelUser, UpdatePanelUser, UpdateProfileUser } from '@/types/user.interface';
 
-export const getProfile = () => {
+/* export const getProfile = () => {
     return myFetch('/users/profile', {
         next: {
             revalidate: 30,
         },
     });
+}; */
+
+export const sendAvaterImage = (formData: FormData) => {
+    return myFetch('/users/avatar', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            Authorization: globalThis?.localStorage?.getItem('token')
+                ? 'Bearer ' + globalThis.localStorage.getItem('token')
+                : '',
+        },
+    });
+};
+
+export const getUserOffers = () => {
+    return myFetch('/users/offers');
+};
+
+export const deleteUserOffer = async (data: { id: string }) => {
+    return myFetch(`/users/offers/${data.id}`, {
+        method: 'DELETE',
+    });
 };
 
 export const updateProfile = (data: UpdateProfileUser) => {
-    return myFetch('users/profile', {
+    return myFetch('/users/profile', {
         method: 'PUT',
         body: JSON.stringify(data),
     });

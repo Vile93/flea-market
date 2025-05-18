@@ -4,9 +4,11 @@ import { CategoriesAndLocations } from '@/types/categories-locations.interface';
 
 interface CategoriesProps {
     data: CategoriesAndLocations;
+    setType: React.Dispatch<React.SetStateAction<{ id: string; value: string } | null>>;
+    type: { id: string; value: string } | null;
 }
 
-export function Categories({ data }: CategoriesProps) {
+export function Categories({ data, setType, type }: CategoriesProps) {
     const categories: TreeDataItem[] = data.categories?.map((category) => ({
         id: 'Category' + category.id.toString(),
         name: category.name,
@@ -17,10 +19,18 @@ export function Categories({ data }: CategoriesProps) {
             payload: type.id,
         })),
     }));
+    const onSelectChange = (item?: TreeDataItem) => {
+        if (!item || item.id.startsWith('Category')) return;
+        if (item.id === type?.id) {
+            setType(null);
+            return;
+        }
+        setType({ id: item.id, value: (item as TreeDataItem & { payload: string }).payload });
+    };
     return (
         <Card className={`bg-transparent`}>
             <CardContent>
-                <TreeView defaultValue={'Category 1'} data={categories} onSelectChange={(e) => console.log(e)} />
+                <TreeView data={categories} onSelectChange={onSelectChange} value={type?.id} />
             </CardContent>
         </Card>
     );

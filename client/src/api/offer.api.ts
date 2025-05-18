@@ -1,5 +1,11 @@
 import { myFetch } from '@/api/main.api';
-import { CreateOffer } from '@/types/offer.interface';
+import { setQuery } from '@/lib/set-query';
+import { CreateOffer, OfferModerateUpdate } from '@/types/offer.interface';
+import { IQueryPanelTable, OfferQuery } from '@/types/query.interface';
+
+export const getOffers = async (query?: OfferQuery) => {
+    return myFetch(`/offers${setQuery(query)}`);
+};
 
 export const sendOfferImage = async (formData: FormData) => {
     return myFetch(`/offers/image`, {
@@ -17,5 +23,17 @@ export const createOffer = async (offer: CreateOffer) => {
     return myFetch('/offers', {
         method: 'POST',
         body: JSON.stringify(offer),
+    });
+};
+
+export const getOffersOnModeration = async (query?: IQueryPanelTable) => {
+    return myFetch(`/offers/moderate${setQuery(query)}`);
+};
+
+export const updateOfferOnModeration = async (data: OfferModerateUpdate & { id: string }) => {
+    const { id, status, content } = data;
+    return myFetch(`/offers/${id}/moderate`, {
+        method: 'PUT',
+        body: JSON.stringify({ content, status }),
     });
 };
