@@ -6,6 +6,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Location } from '@/types/location.interface';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import LocationUpdateModal from '@/app/panel/locations/_components/location-update-modal';
+
 export const columns: ColumnDef<Location>[] = [
     {
         id: 'actions',
