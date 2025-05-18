@@ -55,3 +55,34 @@ export const REVIEW_COLUMNS: ISearchField[] = [
     { field: 'user_id', typeOfSearchField: 'number', russianName: 'Айди пользователя' },
     { field: 'product_id', typeOfSearchField: 'number', russianName: 'Айди продукта' },
 ];
+
+export const OFFER_MODERATION_COLUMNS: ISearchField[] = [
+    { field: 'id', typeOfSearchField: 'number', russianName: 'Айди' },
+    { field: 'title', typeOfSearchField: 'string', russianName: 'Заголовок' },
+    {
+        field: 'user_id',
+        typeOfSearchField: 'number',
+        russianName: 'Айди пользователя',
+    },
+    { field: 'type', typeOfSearchField: 'string', russianName: 'Состояние продукта' },
+    {
+        field: 'price_type',
+        typeOfSearchField: 'string',
+        russianName: 'Тип цены',
+    },
+    {
+        field: 'price',
+        typeOfSearchField: 'string',
+        russianName: 'Цена',
+    },
+    {
+        field: 'region_name',
+        typeOfSearchField: 'string',
+        russianName: 'Название региона',
+    },
+    {
+        field: 'type_name',
+        typeOfSearchField: 'string',
+        russianName: 'Тип продукта',
+    },
+];

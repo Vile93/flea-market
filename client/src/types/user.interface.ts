@@ -2,9 +2,10 @@ import { Roles } from './roles.enum';
 
 export interface UpdateProfileUser {
     name: string;
-    surname: string;
-    newPassword: string;
-    oldPassowrd: string;
+    surname?: string;
+    newPassword?: string;
+    oldPassowrd?: string;
+    avatar_path?: string;
 }
 
 export interface User {
@@ -41,4 +42,12 @@ export interface UpdatePanelUser {
     username: string;
     /*  is_verified: boolean; */
     /* avatar_path?: string; */
+}
+
+export interface UserSettings {
+    name: string;
+    surname?: string;
+    oldPassword?: string;
+    newPassword?: string;
+    avatar_path?: string;
 }

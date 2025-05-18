@@ -7,3 +7,14 @@ export interface IQueryPanelTable {
     searchValue?: string | null;
     typeOfSearchField?: 'number' | 'string' | 'boolean' | null;
 }
+
+export interface OfferQuery {
+    search?: string;
+    priceFrom?: string;
+    priceTo?: string;
+    type_id?: string;
+    region_id?: string;
+    type?: string;
+    take?: string;
+    skip?: string;
+}
