@@ -48,7 +48,7 @@ export function TypeOfPrice({ typeOfPrice, setTypeOfPrice, register, errors, con
             />
             {typeOfPrice === PriceType.PAY ? (
                 <>
-                    <Input required id="price" type="number" placeholder="0.99" {...register('price')} />
+                    <Input required id="price" type="number" placeholder="0.99" step={0.01} {...register('price')} />
                     <FormError error={errors.price?.message as string} />
                 </>
             ) : null}

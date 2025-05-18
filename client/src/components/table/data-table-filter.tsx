@@ -17,7 +17,7 @@ interface DataTableFilterProps<TData> {
     setIsStartedSearch: Dispatch<SetStateAction<boolean>>;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     filterValueSearch: string;
-    addModal: React.ReactElement<{ setIsOpenAddModal: Dispatch<SetStateAction<boolean>> }>;
+    addModal?: React.ReactElement<{ setIsOpenAddModal: Dispatch<SetStateAction<boolean>> }>;
     isDisabledAddButton?: boolean;
 }
 
@@ -74,16 +74,18 @@ export default function DataTableFilter<TData>({
                     ) : null}
                     <DataTableVisibility table={table} />
                 </div>
-                <Dialog open={isOpenAddModal} onOpenChange={setIsOpenAddModal}>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle className="text-xl">Добавить</DialogTitle>
-                        </DialogHeader>
-                        <DialogDescription>
-                            <div className="mt-4">{React.cloneElement(addModal, { setIsOpenAddModal })}</div>
-                        </DialogDescription>
-                    </DialogContent>
-                </Dialog>
+                {addModal ? (
+                    <Dialog open={isOpenAddModal} onOpenChange={setIsOpenAddModal}>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle className="text-xl">Добавить</DialogTitle>
+                            </DialogHeader>
+                            <DialogDescription>
+                                <div className="mt-4">{React.cloneElement(addModal, { setIsOpenAddModal })}</div>
+                            </DialogDescription>
+                        </DialogContent>
+                    </Dialog>
+                ) : null}
             </div>
         </>
     );

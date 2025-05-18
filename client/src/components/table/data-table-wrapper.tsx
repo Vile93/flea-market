@@ -21,17 +21,17 @@ import { PANEL_TABLE_PAGINATION } from '@/constants/panel.constant';
 import { PanelReloadTableContext } from '@/contexts/panel-reload-table.context';
 import { PANEL_RELOAD_TABLE_REASON } from '@/constants/panel-reload-table-reason.constant';
 
-interface DataTableWrapperProps<TData, TValue> {
-    fetcher: ReturnType<typeof useFetch<{ data: TData[]; totalCount: number }, IQueryPanelTable>>;
+interface DataTableWrapperProps<TData, TValue, Y> {
+    fetcher: ReturnType<typeof useFetch<{ data: Y[]; totalCount: number }, IQueryPanelTable>>;
     data: TData[];
     columns: ColumnDef<TData, TValue>[];
     totalCount: number;
     constantsSearchField: ISearchField[];
-    addModal: React.ReactElement<{ setIsOpenAddModal: Dispatch<SetStateAction<boolean>> }>;
+    addModal?: React.ReactElement<{ setIsOpenAddModal: Dispatch<SetStateAction<boolean>> }>;
     isDisabledAddButton?: boolean;
 }
 
-export default function DataTableWrapper<TData, TValue>({
+export default function DataTableWrapper<TData, TValue, Y>({
     fetcher,
     data,
     columns,
@@ -39,7 +39,7 @@ export default function DataTableWrapper<TData, TValue>({
     constantsSearchField,
     addModal,
     isDisabledAddButton,
-}: DataTableWrapperProps<TData, TValue>) {
+}: DataTableWrapperProps<TData, TValue, Y>) {
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
     const [pageInfo, setPageInfo] = useState<PaginationState>({

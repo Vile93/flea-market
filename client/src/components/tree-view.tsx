@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { ChevronRight } from 'lucide-react';
 import { cva } from 'class-variance-authority';
@@ -35,6 +35,7 @@ type TreeProps = React.HTMLAttributes<HTMLDivElement> & {
     defaultNodeIcon?: any;
     defaultLeafIcon?: any;
     onDocumentDrag?: (sourceItem: TreeDataItem, targetItem: TreeDataItem) => void;
+    value?: any;
 };
 
 const TreeView = React.forwardRef<HTMLDivElement, TreeProps>(
@@ -48,6 +49,7 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeProps>(
             defaultNodeIcon,
             className,
             onDocumentDrag,
+            value,
             ...props
         },
         ref,
@@ -59,14 +61,20 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeProps>(
             (item: TreeDataItem | undefined) => {
                 if (selectedItemId === item?.id) {
                     setSelectedItemId(undefined);
+                    if (onSelectChange) {
+                        onSelectChange(item);
+                    }
                     return;
                 }
                 setSelectedItemId(item?.id);
                 if (onSelectChange) {
                     onSelectChange(item);
                 }
+                if (typeof value !== 'undefined') {
+                    setSelectedItemId(value);
+                }
             },
-            [onSelectChange, selectedItemId],
+            [onSelectChange, selectedItemId, value],
         );
 
         const handleDragStart = React.useCallback((item: TreeDataItem) => {
@@ -109,7 +117,10 @@ const TreeView = React.forwardRef<HTMLDivElement, TreeProps>(
             walkTreeItems(data, initialSelectedItemId);
             return ids;
         }, [data, expandAll, initialSelectedItemId]);
-
+        useEffect(() => {
+            console.log(value, 'value');
+            setSelectedItemId(value);
+        }, [value]);
         return (
             <div className={cn('overflow-hidden relative p-2', className)}>
                 <TreeItem
