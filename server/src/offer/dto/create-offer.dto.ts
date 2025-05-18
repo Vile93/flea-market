@@ -1,5 +1,5 @@
 import { OfferType, PriceType } from '@prisma/client';
-import { IsArray, IsIn, IsInt, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsArray, IsIn, IsInt, IsNotEmpty, IsOptional, IsPositive, IsString, Length } from 'class-validator';
 import { IOfferType } from 'src/common/types/offer-type.type';
 import { IPriceType } from 'src/common/types/price-type.type';
 import { keys } from 'ts-transformer-keys';
@@ -15,9 +15,9 @@ export class CreateOfferDto {
     @Length(10, 3000)
     description: string;
 
-    @IsNotEmpty()
-    @IsInt()
-    price: number;
+    @IsOptional()
+    @IsPositive()
+    price?: number;
 
     @IsNotEmpty()
     @IsInt()

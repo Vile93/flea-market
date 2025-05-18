@@ -3,8 +3,11 @@ import {
     ClassSerializerInterceptor,
     Controller,
     Delete,
+    FileTypeValidator,
     Get,
+    MaxFileSizeValidator,
     Param,
+    ParseFilePipe,
     ParseIntPipe,
     Post,
     Put,
@@ -23,9 +26,11 @@ import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { FindUserDto } from 'src/user/dto/find-user.dto';
+import { UpdateUserProfileDto } from 'src/user/dto/update-user-profile.dto';
+import { MAX_ALLOW_FILE_SIZE } from 'src/common/constants';
 
 @UseGuards(JwtAuthGuard)
-@UseInterceptors(ClassSerializerInterceptor, FileInterceptor('logo'))
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
@@ -45,6 +50,41 @@ export class UserController {
     @Get('profile')
     profile(@Req() req: Request) {
         return this.userService.profile(req.user.payload);
+    }
+
+    @Put('profile')
+    updateProfile(@Req() req: Request, @Body() updateUserProfileDto: UpdateUserProfileDto) {
+        return this.userService.updateProfile(req.user.payload, updateUserProfileDto);
+    }
+
+    @Post('avatar')
+    @UseInterceptors(FileInterceptor('avatar'))
+    createAvatar(
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                    new MaxFileSizeValidator({
+                        maxSize: MAX_ALLOW_FILE_SIZE,
+                        message: 'File size exceeded',
+                    }),
+                    new FileTypeValidator({ fileType: /^image/ }),
+                ],
+            }),
+        )
+        image: Express.Multer.File,
+    ) {
+        return this.userService.createAvatar(image);
+    }
+
+    @Get('offers')
+    findUserOffers(@Req() req: Request) {
+        return this.userService.findUserOffers(req.user.payload);
+    }
+
+    @Delete('offers/:offerId')
+    deleteUserOffer(@Param('offerId', ParseIntPipe) offerId: number, @Req() req: Request) {
+        console.log(req.user.payload);
+        return this.userService.deleteUserOffer(offerId, req.user.payload);
     }
 
     @Roles(Role.ROOT, Role.ADMIN)

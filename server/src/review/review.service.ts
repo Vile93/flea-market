@@ -15,7 +15,7 @@ export class ReviewService {
 
     async create(createReviewDto: CreateReviewDto, payload: Payload) {
         const { offer_id } = createReviewDto;
-        const offer = await this.offerRepository.find({ id: offer_id });
+        const offer = await this.offerRepository.find({ id: offer_id }, {});
         if (!offer) {
             throw new NotFoundException();
         }

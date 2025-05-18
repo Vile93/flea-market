@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException, Query } from '@nestjs/common';
 import { CreateOfferDto } from './dto/create-offer.dto';
 import { UpdateOfferDto } from './dto/update-offer.dto';
 import { OfferRepositoryService } from 'src/offer/offer-repository.service';
@@ -14,6 +14,7 @@ import { CategoryRepositoryService } from 'src/category/category-repository.serv
 import { LocationRepositoryService } from 'src/location/location-repository.service';
 import { FindOpts } from 'src/common/types/find-opts.interface';
 import { UpdateModerateOfferDto } from 'src/offer/dto/update-moderate-offer.dto';
+import { toObj } from 'src/common/utils/to-obj.utils';
 
 @Injectable()
 export class OfferService {
@@ -43,11 +44,16 @@ export class OfferService {
 
     async findAllWithModerate(findOpts: FindOpts) {
         const totalCount = await this.offerRepository.count(findOpts.where ?? {});
+        console.log(findOpts);
         const offers = await this.offerRepository.findAll({
             ...findOpts,
             where: {
                 ...findOpts.where,
                 status: OfferStatus.MODERATE,
+            },
+            include: {
+                region_ref: true,
+                type_ref: true,
             },
         });
         return {
@@ -71,7 +77,7 @@ export class OfferService {
                 const offer = await tx.offer.create({
                     data: {
                         description,
-                        price,
+                        price: price || 0,
                         title,
                         price_type,
                         type,
@@ -107,15 +113,76 @@ export class OfferService {
         }
     }
 
-    async findAll(findOfferDto: FindOfferDto) {
-        return this.offerRepository.findAll(findOfferDto);
+    async findAll(@Query() findOfferDto: FindOfferDto) {
+        const { priceFrom, priceTo, orderDirection, orderField, region_id, type_id, search, skip, take, type } =
+            findOfferDto;
+        console.log(skip, take, type, 'skip and take');
+        const totalCount = await this.offerRepository.count(
+            toObj({
+                OR: [
+                    {
+                        title: { contains: search || '', mode: 'insensitive' },
+                    },
+                    { description: { contains: search || '', mode: 'insensitive' } },
+                ],
+                status: OfferStatus.ACCEPTED,
+                price: {
+                    gte: priceFrom,
+                    lte: priceTo,
+                },
+                region_id,
+                type_id,
+                type,
+            }),
+        );
+        const offers = await this.offerRepository.findAll(
+            toObj({
+                where: {
+                    OR: [
+                        {
+                            title: { contains: search || '', mode: 'insensitive' },
+                        },
+                        { description: { contains: search || '', mode: 'insensitive' } },
+                    ],
+                    status: OfferStatus.ACCEPTED,
+                    price: {
+                        gte: priceFrom,
+                        lte: priceTo,
+                    },
+                    region_id,
+                    type_id,
+                    type,
+                },
+                include: {
+                    OfferImages: true,
+                    region_ref: true,
+                    type_ref: true,
+                },
+                orderBy: { [orderField as string]: orderDirection },
+                skip,
+                take,
+            }),
+        );
+        return {
+            totalCount,
+            data: offers,
+        };
     }
 
     async findById(id: number) {
-        const offer = await this.offerRepository.find({ id });
+        const offer = await this.offerRepository.find(
+            { id },
+            {
+                OfferImages: true,
+                region_ref: true,
+                type_ref: true,
+                user_ref: { select: { username: true, phone: true, avatar_path: true } },
+            },
+        );
         if (!offer) {
             throw new NotFoundException();
         }
+
         if (offer.status !== OfferStatus.ACCEPTED) {
             throw new NotFoundException();
         }
@@ -126,7 +193,7 @@ export class OfferService {
         if (payload.role !== Role.MODERATOR) {
             throw new ForbiddenException();
         }
-        const offer = await this.offerRepository.find({ id });
+        const offer = await this.offerRepository.find({ id }, { region_ref: true, type_ref: true, OfferImages: true });
         if (!offer || offer.status !== OfferStatus.MODERATE) {
             throw new NotFoundException();
         }
@@ -134,7 +201,7 @@ export class OfferService {
     }
 
     async updateModerateOffer(id: number, updateModerateOffer: UpdateModerateOfferDto) {
-        const offer = await this.offerRepository.find({ id });
+        const offer = await this.offerRepository.find({ id }, {});
         if (!offer || offer.status !== OfferStatus.MODERATE) {
             throw new NotFoundException();
         }
@@ -155,7 +222,7 @@ export class OfferService {
     }
 
     async update(id: number, payload: Payload, updateOfferDto: UpdateOfferDto) {
-        const offer = await this.offerRepository.find({ id });
+        const offer = await this.offerRepository.find({ id }, {});
         if (!offer) {
             throw new NotFoundException();
         }
@@ -169,7 +236,7 @@ export class OfferService {
     }
 
     async delete(id: number, payload: Payload) {
-        const offer = await this.offerRepository.find({ id });
+        const offer = await this.offerRepository.find({ id }, {});
         if (!offer) {
             throw new NotFoundException();
         }

@@ -13,6 +13,7 @@ import {
     ParseFilePipe,
     FileTypeValidator,
     UseGuards,
+    Query,
 } from '@nestjs/common';
 import { OfferService } from './offer.service';
 import { CreateOfferDto } from './dto/create-offer.dto';
@@ -64,13 +65,13 @@ export class OfferController {
     }
 
     @Get()
-    findAll(@Body() findOfferDto: FindOfferDto) {
+    findAll(@Query() findOfferDto: FindOfferDto) {
         return this.offerService.findAll(findOfferDto);
     }
 
     @Roles(Role.MODERATOR)
     @Get('moderate')
-    findAllWithModerate(@Body() findModerateOfferDto: FindModerateOfferDto) {
+    findAllWithModerate(@Query() findModerateOfferDto: FindModerateOfferDto) {
         return this.offerService.findAllWithModerate(findModerateOfferDto.data);
     }
 

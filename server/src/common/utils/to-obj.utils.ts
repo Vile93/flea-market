@@ -1,3 +1,3 @@
-export const toObj = (obj: Record<string, any>) => {
+export const toObj = <T>(obj: T): T => {
     return JSON.parse(JSON.stringify(obj));
 };

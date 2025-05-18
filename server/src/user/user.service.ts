@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Payload } from 'src/common/types/payload.type';
 import { StorageService } from 'src/storage/storage.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
@@ -9,9 +9,13 @@ import { BcryptService } from 'src/bcrypt/bcrypt.service';
 import { BUCKET_NAMES } from 'src/common/constants';
 import { FindOpts } from 'src/common/types/find-opts.interface';
 import { Role } from '@prisma/client';
+import { OfferRepositoryService } from 'src/offer/offer-repository.service';
+import { UpdateUserProfileDto } from 'src/user/dto/update-user-profile.dto';
+
 @Injectable()
 export class UserService {
     constructor(
+        private readonly offerRepository: OfferRepositoryService,
         private readonly userRepository: UserRepositoryService,
         private readonly storageService: StorageService,
         private readonly bcryptService: BcryptService,
@@ -29,6 +33,23 @@ export class UserService {
         }
         return new UserEntity(user);
     }
+    async findUserOffers(payload: Payload) {
+        const offers = await this.offerRepository.findAll({
+            where: {
+                user_id: payload.userId,
+            },
+            include: {
+                OfferImages: {
+                    orderBy: {
+                        order: 'asc',
+                    },
+                    take: 1,
+                },
+                region_ref: true,
+            },
+        });
+        return offers;
+    }
     async profile(payload: Payload) {
         const user = await this.userRepository.find({ id: payload.userId });
         if (!user) {
@@ -36,6 +57,33 @@ export class UserService {
         }
         return new UserEntity(user);
     }
+    async updateProfile(payload: Payload, updateUserProfileDto: UpdateUserProfileDto) {
+        const { name, newPassword, oldPassword, surname, avatar_path } = updateUserProfileDto;
+        let hashedPassword: string | undefined;
+        const user = await this.userRepository.find({ id: payload.userId });
+        if (!user) {
+            throw new NotFoundException();
+        }
+        if (newPassword) {
+            const isCorrect = await this.bcryptService.compare(oldPassword, user.password);
+            if (!isCorrect) {
+                throw new BadRequestException('Неправильный пароль');
+            }
+            hashedPassword = await this.bcryptService.hash(newPassword);
+        }
+        const updatedUser = await this.userRepository.update({
+            where: {
+                id: payload.userId,
+            },
+            data: { name, surname, avatar_path, password: hashedPassword },
+        });
+        return new UserEntity(updatedUser);
+    }
+    async createAvatar(image: Express.Multer.File) {
+        const url = await this.storageService.uploadFile(image, BUCKET_NAMES.AVA_IMAGES, 'public-read');
+        return { url };
+    }
+
     async delete(id: number, payload: Payload) {
         const user = await this.userRepository.find({ id });
         if (!user) {
@@ -55,6 +103,17 @@ export class UserService {
         }
         await this.userRepository.delete({ id });
         return new UserEntity(user);
+    }
+    async deleteUserOffer(offerId: number, payload: Payload) {
+        const offer = await this.offerRepository.find({ id: offerId }, {});
+        if (!offer) {
+            throw new NotFoundException();
+        }
+        if (offer.user_id !== payload.userId) {
+            throw new ForbiddenException();
+        }
+        const deletedOffer = await this.offerRepository.delete({ id: offerId });
+        return deletedOffer;
     }
     async updateUserProfile(payload: Payload, logo: Express.Multer.File, updateUserDto: UpdateUserDto) {
         const user = await this.userRepository.find({ id: payload.userId });

@@ -14,7 +14,7 @@ export class OfferFilesService {
     ) {}
 
     async create(offerId: number, payload: Payload, files: { images?: Express.Multer.File[] }) {
-        const offer = await this.offerRepository.find({ id: offerId });
+        const offer = await this.offerRepository.find({ id: offerId }, {});
         if (!offer) {
             throw new NotFoundException();
         }

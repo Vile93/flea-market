@@ -65,6 +65,8 @@ model Offer {
   region_ref        Region          @relation(fields: [region_id], references: [id])
   user_customer_id  Int?
   user_customer_ref User?           @relation("CustomerUser", fields: [user_customer_id], references: [id])
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @default(now()) @updatedAt()
   status            OfferStatus     @default(MODERATE)
   Review            Review[]
   OfferImages       OfferImages[]
