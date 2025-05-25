@@ -33,4 +33,9 @@ export class OfferImagesRepositoryService {
             where,
         });
     }
+    async deleteMany(where: Prisma.OfferImagesWhereInput) {
+        return this.prisma.offerImages.deleteMany({
+            where,
+        });
+    }
 }

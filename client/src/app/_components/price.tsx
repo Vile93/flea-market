@@ -16,7 +16,7 @@ export function Price({ price, setPrice }: PriceProps) {
     };
     const toPriceChangeHandle = (e: ChangeEvent<HTMLInputElement>) => {
         setPrice({
-            priceFrom: price?.priceTo ?? undefined,
+            priceFrom: price?.priceFrom ?? undefined,
             priceTo: e.target.value,
         });
     };

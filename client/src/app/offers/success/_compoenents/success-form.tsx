@@ -1,6 +1,9 @@
 'use client';
 
 import NotFound from '@/components/not-found';
+import { Button } from '@/components/ui/button';
+import { CircleCheckBig } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -19,5 +22,13 @@ export function SuccessForm() {
     if (!globalThis.sessionStorage.getItem('user-offer-message')) {
         return <NotFound />;
     }
-    return <div>{message}</div>;
+    return (
+        <div className="flex flex-col gap-4 items-center">
+            <CircleCheckBig className="w-24 h-24" />
+            <div className="text-xl font-bold">{message}</div>
+            <Link href={'/'}>
+                <Button className="cursor-pointer">На главную</Button>
+            </Link>
+        </div>
+    );
 }

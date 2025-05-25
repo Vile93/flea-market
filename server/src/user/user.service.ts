@@ -11,6 +11,7 @@ import { FindOpts } from 'src/common/types/find-opts.interface';
 import { Role } from '@prisma/client';
 import { OfferRepositoryService } from 'src/offer/offer-repository.service';
 import { UpdateUserProfileDto } from 'src/user/dto/update-user-profile.dto';
+import { OfferImagesRepositoryService } from 'src/offer-images/offer-images-repository.service';
 
 @Injectable()
 export class UserService {
@@ -19,6 +20,7 @@ export class UserService {
         private readonly userRepository: UserRepositoryService,
         private readonly storageService: StorageService,
         private readonly bcryptService: BcryptService,
+        private readonly offerImagesReposityory: OfferImagesRepositoryService,
     ) {}
 
     async findAll(findOpts: FindOpts) {
@@ -112,6 +114,7 @@ export class UserService {
         if (offer.user_id !== payload.userId) {
             throw new ForbiddenException();
         }
+        await this.offerImagesReposityory.deleteMany({ offer_id: offerId });
         const deletedOffer = await this.offerRepository.delete({ id: offerId });
         return deletedOffer;
     }

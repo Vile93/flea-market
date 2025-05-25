@@ -18,10 +18,10 @@ export const registerSchema = loginSchema
         surname: z
             .string()
             .optional()
-            .refine((surname) => surname === undefined || surname.length >= 3, {
+            .refine((surname) => !surname || surname.length >= 3, {
                 message: 'Фамилия должна быть не менее 3 символов',
             })
-            .refine((surname) => surname === undefined || surname.length <= 50, {
+            .refine((surname) => !surname || surname.length <= 50, {
                 message: 'Фамилия должна быть не более 50 символов',
             }),
         username: z

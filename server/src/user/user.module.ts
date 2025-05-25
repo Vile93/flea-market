@@ -5,9 +5,10 @@ import { UserRepositoryService } from './user-repository.service';
 import { StorageModule } from 'src/storage/storage.module';
 import { BcryptModule } from 'src/bcrypt/bcrypt.module';
 import { OfferModule } from 'src/offer/offer.module';
+import { OfferImagesModule } from 'src/offer-images/offer-images.module';
 
 @Module({
-    imports: [StorageModule, BcryptModule, OfferModule],
+    imports: [StorageModule, BcryptModule, OfferModule, OfferImagesModule],
     exports: [UserRepositoryService],
     controllers: [UserController],
     providers: [UserService, UserRepositoryService],

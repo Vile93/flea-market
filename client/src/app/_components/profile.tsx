@@ -88,9 +88,9 @@ export async function Profile() {
                     <DropdownMenuItem className="cursor-pointer">Мои объявления</DropdownMenuItem>
                 </Link>
 
-                <Link href={PROFILE_ROUTES.CHATS}>
+                {/*  <Link href={PROFILE_ROUTES.CHATS}>
                     <DropdownMenuItem className="cursor-pointer">Чаты</DropdownMenuItem>
-                </Link>
+                </Link> */}
                 <DropdownMenuSeparator />
                 <Link href={PROFILE_ROUTES.SETTINGS}>
                     <DropdownMenuItem className="cursor-pointer">Настройки</DropdownMenuItem>
